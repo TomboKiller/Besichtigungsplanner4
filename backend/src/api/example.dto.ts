@@ -7,7 +7,7 @@ export class ExampleDto {
   })
   @IsString()
   @IsNotEmpty()
-  test: number;
+  test: string;
 
   other: number;
 }
