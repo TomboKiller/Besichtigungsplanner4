@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@nestjs/swagger": "^8.1.0",
+    "class-validator": "^0.14.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
