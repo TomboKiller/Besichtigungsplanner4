@@ -7,6 +7,6 @@ import App from './App.tsx';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
-    <ToastContainer position="top-center" />
+    <ToastContainer position="top-right" />
   </StrictMode>
 );

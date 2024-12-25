@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { loader as allVisitsLoader } from './pages/DashboardPage';
+import { action as createVisitsAction } from './components/hyper/Modal';
 
 import DashboardPage from './pages/DashboardPage';
 
@@ -10,6 +11,7 @@ const router = createBrowserRouter([
     element: <DashboardPage />,
     errorElement: <div>404 Not Found</div>,
     loader: allVisitsLoader(),
+    action: createVisitsAction,
   },
 ]);
 

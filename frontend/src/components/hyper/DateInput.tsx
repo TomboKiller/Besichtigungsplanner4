@@ -5,9 +5,16 @@ interface DateInputProps {
   value: string;
   onChange: (value: string) => void;
   name?: string;
+  disabled?: boolean;
 }
 
-const DateInput: FC<DateInputProps> = ({ children, value, onChange, name, disabled}) => {
+const DateInput: FC<DateInputProps> = ({
+  children,
+  value,
+  onChange,
+  name,
+  disabled,
+}) => {
   return (
     <div className="relative flex space-x-2">
       <div className="relative flex-1">
@@ -16,7 +23,7 @@ const DateInput: FC<DateInputProps> = ({ children, value, onChange, name, disabl
           className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm"
           type="datetime-local"
           value={value}
-           disabled={disabled}
+          disabled={disabled}
           onChange={(evt) => onChange(evt.target.value)}
           name={name}
         />

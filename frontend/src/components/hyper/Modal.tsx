@@ -1,16 +1,25 @@
 import CardContent from './CardContent';
-import { toast } from 'react-toastify';
-import { ActionFunctionArgs, Form } from 'react-router-dom';
-import Button from './button';
-
+import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
+import Button from './Button';
+import customFetch from '../../utils/customFetch';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData) as Visit;
-  // createVisits(data);
+  const data = Object.fromEntries(formData);
+  console.log(data);
 
-  return null;
+  try {
+    await customFetch.post('/', data);
+    toast.success('Visit added successfully ');
+    return redirect('/');
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.error || 'Something went wrong';
+    toast.error(errorMessage);
+    console.error(error.response?.data?.details);
+    return error;
+  }
 };
 
 const Modal = () => {

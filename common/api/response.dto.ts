@@ -1,4 +1,4 @@
-export class GetVisitResponseDto {
+export class VisitDto {
   id: string; // Use string for MongoDB ObjectId
   name: string;
   datetime: string; // ISO string for better API compatibility
@@ -6,6 +6,8 @@ export class GetVisitResponseDto {
   pets: string;
   jobTitle: string;
   other?: string;
-  status: string; // Enum as a string for clarity
+  status: 'wait' | 'see' | 'interest' | 'finish' | 'ignore';
   createdAt: string; // ISO string for better API compatibility
 }
+
+export class GetVisitResponseDto extends VisitDto {}

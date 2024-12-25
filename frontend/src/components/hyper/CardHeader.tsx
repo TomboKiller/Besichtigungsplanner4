@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import { VisitStatus } from '../../api';
+import { GetVisitResponseDto } from '../../api/response.dto';
 
 interface CardHeaderProps {
-  status: VisitStatus;
+  status: GetVisitResponseDto['status'];
 }
 
-const statusColorClassMap: Record<VisitStatus, string> = {
+const statusColorClassMap: Record<GetVisitResponseDto['status'], string> = {
   see: 'bg-gradient-to-r from-violet-300 via-violet-500 to-violet-700',
   wait: 'bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700',
   interest: 'bg-gradient-to-r from-green-300 via-green-500 to-green-700',

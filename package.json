@@ -21,6 +21,7 @@
     "dev": "npm run distribute:api && concurrently \"npm run dev --workspace frontend\" \"npm run start:dev --workspace backend\""
   },
   "dependencies": {
+    "@nestjs/config": "^3.3.0",
     "@nestjs/swagger": "^8.1.0",
     "class-validator": "^0.14.1",
     "concurrently": "^9.1.0"

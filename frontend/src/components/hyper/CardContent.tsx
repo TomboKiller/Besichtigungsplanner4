@@ -1,21 +1,27 @@
 import { useEffect, useState, type FC, type ReactNode } from 'react';
 import Input from './Input';
 import { GetVisitResponseDto } from '../../api/response.dto';
+// @ts-ignore
 import PersonIcon from '../../assets/person.svg?react';
+// @ts-ignore
 import MultiplePersonIcon from '../../assets/multiplePersons.svg?react';
+// @ts-ignore
 import CalenderIcon from '../../assets/calendar.svg?react';
+// @ts-ignore
 import Pets from '../../assets/pets.svg?react';
+// @ts-ignore
 import Job from '../../assets/job.svg?react';
+// @ts-ignore
 import Others from '../../assets/others.svg?react';
 
 import DateInput from './DateInput';
 interface CardContentProps {
-  visit: GetVisitResponseDto | undefined;
+  visit?: GetVisitResponseDto;
 }
 
 const DEFAULT_STATE: GetVisitResponseDto = {
   id: '',
-  status: '',
+  status: 'wait',
   createdAt: '',
   name: '',
   numberOfPeople: '',
@@ -25,7 +31,7 @@ const DEFAULT_STATE: GetVisitResponseDto = {
   other: '',
 };
 
-const CardContent: FC<CardContentProps> = ({ children, visit }) => {
+const CardContent: FC<CardContentProps> = ({ visit }) => {
   const [edit, setEdit] = useState(false);
 
   const [state, setState] = useState<GetVisitResponseDto>(
@@ -92,7 +98,7 @@ const CardContent: FC<CardContentProps> = ({ children, visit }) => {
           name="other"
           disabled={edit}
           placeholder="Sonstiges"
-          value={state.other}
+          value={state.other || ''}
           onChange={(other) => {
             setState((s) => ({ ...s, other }));
           }}
