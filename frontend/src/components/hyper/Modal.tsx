@@ -1,5 +1,5 @@
 import CardContent from './CardContent';
-import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
+import { ActionFunctionArgs, Form } from 'react-router-dom';
 import Button from './Button';
 import customFetch from '../../utils/customFetch';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   try {
     await customFetch.post('/', data);
     toast.success('Visit added successfully ');
-    return redirect('/');
+    return null;
   } catch (error: any) {
     const errorMessage = error.response?.data?.error || 'Something went wrong';
     toast.error(errorMessage);
@@ -24,6 +24,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 const Modal = () => {
   const [showModal, setShowModal] = useState(false);
+
+  // useEffect(() => {
+  //   if (actionData === true) {
+  //     {
+  //       setShowModal(false);
+  //       const actionData = false;
+  //     }
+  //   }
+  // }, [actionData]);
   return (
     <>
       <div className="w-full flex justify-center mt-8">
@@ -49,7 +58,13 @@ const Modal = () => {
         <div className="my-10 shadow-lg relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8 inset-0 items-center justify-center">
           <span className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-green-300 via-green-500 to-green-700"></span>
           <div className="-my-3">
-            <Form method="post" className="form">
+            <Form
+              method="post"
+              onSubmit={() => {
+                setShowModal(false);
+              }}
+              className="form"
+            >
               <CardContent />
               <Button> ADD </Button>
             </Form>

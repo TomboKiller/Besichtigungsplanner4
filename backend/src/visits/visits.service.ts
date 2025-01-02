@@ -28,4 +28,8 @@ export class VisitsService {
       );
     }
   }
+
+  async getVisits(): Promise<VisitDocument[]> {
+    return await this.visitModel.find().sort({ createdAt: -1 }).exec();
+  }
 }

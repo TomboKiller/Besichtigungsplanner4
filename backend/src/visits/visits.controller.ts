@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { CreateVisitDto } from 'src/api/request.dto';
 import { GetVisitResponseDto } from 'src/api/response.dto';
 import { VisitsService } from './visits.service';
@@ -14,6 +14,12 @@ export class VisitsController {
   ): Promise<GetVisitResponseDto> {
     const newVisit = await this.visitsService.createVisit(createVisitDto);
     return this.mapVisitToResponse(newVisit);
+  }
+
+  @Get()
+  async getVisits(): Promise<GetVisitResponseDto[]> {
+    const visits = await this.visitsService.getVisits();
+    return visits.map((visit) => this.mapVisitToResponse(visit));
   }
 
   mapVisitToResponse(visit: VisitDocument): GetVisitResponseDto {

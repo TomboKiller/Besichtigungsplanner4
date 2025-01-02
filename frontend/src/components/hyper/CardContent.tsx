@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC, type ReactNode } from 'react';
+import { useState, type FC } from 'react';
 import Input from './Input';
 import { GetVisitResponseDto } from '../../api/response.dto';
 // @ts-ignore
@@ -17,6 +17,7 @@ import Others from '../../assets/others.svg?react';
 import DateInput from './DateInput';
 interface CardContentProps {
   visit?: GetVisitResponseDto;
+  edit?: boolean;
 }
 
 const DEFAULT_STATE: GetVisitResponseDto = {
@@ -31,9 +32,7 @@ const DEFAULT_STATE: GetVisitResponseDto = {
   other: '',
 };
 
-const CardContent: FC<CardContentProps> = ({ visit }) => {
-  const [edit, setEdit] = useState(false);
-
+const CardContent: FC<CardContentProps> = ({ visit, edit = false }) => {
   const [state, setState] = useState<GetVisitResponseDto>(
     visit || DEFAULT_STATE
   );
