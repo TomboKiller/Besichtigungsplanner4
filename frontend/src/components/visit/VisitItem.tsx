@@ -15,22 +15,22 @@ interface VisitItemProps {
   visit: GetVisitResponseDto;
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  console.log(data);
+// export const action = async ({ request }: ActionFunctionArgs) => {
+//   const formData = await request.formData();
+//   const data = Object.fromEntries(formData);
+//   console.log(data);
 
-  try {
-    await customFetch.post('/', data);
-    toast.success('Visit added successfully ');
-    return null;
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.error || 'Something went wrong';
-    toast.error(errorMessage);
-    console.error(error.response?.data?.details);
-    return error;
-  }
-};
+//   // try {
+//   //   await customFetch.post('/', data);
+//   //   toast.success('Visit added successfully ');
+//   //   return null;
+//   // } catch (error: any) {
+//   //   const errorMessage = error.response?.data?.error || 'Something went wrong';
+//   //   toast.error(errorMessage);
+//   //   console.error(error.response?.data?.details);
+//   //   return error;
+//   // }
+// };
 
 const VisitItem: FC<VisitItemProps> = ({ visit }) => {
   const [edit, setEdit] = useState(true);
@@ -40,10 +40,10 @@ const VisitItem: FC<VisitItemProps> = ({ visit }) => {
       <CardHeader status={visit.status}></CardHeader>
       <div className="relative flex gap-2 justify-end">
         <Button_edit onEdit={() => setEdit(!edit)} />
-        <Button_delete />
+        <Button_delete visit_id={visit.id} />
       </div>
+      <CardContent visit={visit} edit={edit}></CardContent>
       <Form>
-        <CardContent visit={visit} edit={edit}></CardContent>
         <Button active={edit}>Edit</Button>
       </Form>
     </Card>

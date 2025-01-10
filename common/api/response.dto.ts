@@ -6,7 +6,7 @@ export class VisitDto {
   pets: string;
   jobTitle: string;
   other?: string;
-  status: 'wait' | 'see' | 'interest' | 'finish' | 'ignore';
+  status: 'wait' | 'see' | 'interest' | 'finish' | 'ignore' | 'delete';
   createdAt: string; // ISO string for better API compatibility
 }
 

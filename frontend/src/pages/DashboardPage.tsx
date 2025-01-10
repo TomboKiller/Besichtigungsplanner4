@@ -1,5 +1,6 @@
 import { useLoaderData } from 'react-router-dom';
 import VisitList from '../components/VisitList';
+import Archive_visits from '../components/hyper/Archive_visits';
 import { GetVisitResponseDto } from '../api/response.dto'; // Adjust the import path as necessary
 import Modal from '../components/hyper/Modal';
 import customFetch from '../utils/customFetch';
@@ -33,7 +34,12 @@ export const loader = () => async () => {
 
   try {
     const visits = await customFetch<GetVisitResponseDto[]>('/');
-    return visits.data;
+    const visits_deleted = await customFetch<GetVisitResponseDto[]>('/deleted');
+    const loaderData = {
+      visits: visits.data,
+      visits_deleted: visits_deleted.data,
+    };
+    return loaderData;
   } catch (error: any) {
     const errorMessage = error.response?.data?.error || 'Something went wrong';
     toast.error(errorMessage);
@@ -43,13 +49,15 @@ export const loader = () => async () => {
 };
 
 const DashboardPage = () => {
-  const visits = useLoaderData() as GetVisitResponseDto[];
-  console.log(visits);
+  const loaderData = useLoaderData() as GetVisitResponseDto[];
+  console.log(loaderData);
 
   return (
     <>
       <Modal />
-      <VisitList data={visits} />
+      <VisitList data={loaderData.visits} />
+
+      <Archive_visits visits_deleted={loaderData.visits_deleted} />
     </>
   );
 };

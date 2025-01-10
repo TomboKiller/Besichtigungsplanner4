@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Delete,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { CreateVisitDto } from 'src/api/request.dto';
 import { GetVisitResponseDto } from 'src/api/response.dto';
 import { VisitsService } from './visits.service';
@@ -20,6 +28,17 @@ export class VisitsController {
   async getVisits(): Promise<GetVisitResponseDto[]> {
     const visits = await this.visitsService.getVisits();
     return visits.map((visit) => this.mapVisitToResponse(visit));
+  }
+
+  @Get('/deleted')
+  async getdeletedVisits(): Promise<GetVisitResponseDto[]> {
+    const visits = await this.visitsService.getdeletedVisits();
+    return visits.map((visit) => this.mapVisitToResponse(visit));
+  }
+
+  @Delete('/:id')
+  async deleteVisit(@Param('id') id: string): Promise<string> {
+    return await this.visitsService.deleteVisit(id);
   }
 
   mapVisitToResponse(visit: VisitDocument): GetVisitResponseDto {

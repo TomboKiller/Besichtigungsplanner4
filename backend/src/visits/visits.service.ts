@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Visit, VisitDocument } from './visits.entity';
 import { Model } from 'mongoose';
@@ -30,6 +35,25 @@ export class VisitsService {
   }
 
   async getVisits(): Promise<VisitDocument[]> {
-    return await this.visitModel.find().sort({ createdAt: -1 }).exec();
+    return await this.visitModel
+      .find({ status: { $ne: 'delete' } })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+  async getdeletedVisits(): Promise<VisitDocument[]> {
+    return await this.visitModel
+      .find({ status: 'delete' })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+  async deleteVisit(id: string): Promise<string> {
+    const visit = await this.visitModel.findById(id).exec();
+
+    if (!visit) {
+      throw new NotFoundException(`Visit with ID ${id} not found`);
+    }
+    await this.visitModel.findByIdAndUpdate(id, { status: 'delete' }).exec();
+    // await this.visitModel.findByIdAndDelete(id).exec();
+    return 'Visit deleted successfully';
   }
 }

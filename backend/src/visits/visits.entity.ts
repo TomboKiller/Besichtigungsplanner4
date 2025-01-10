@@ -6,6 +6,7 @@ export const VISIT_STATUS_VALUES = <const>[
   'interest',
   'finish',
   'ignore',
+  'delete',
 ];
 export type VisitStatus = (typeof VISIT_STATUS_VALUES)[number];
 
