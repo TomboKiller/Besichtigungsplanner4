@@ -9,6 +9,7 @@ import Button from '../hyper/Button';
 import { ActionFunctionArgs, Form } from 'react-router-dom';
 import customFetch from '../../utils/customFetch';
 import { toast } from 'react-toastify';
+
 // import Button from '../hyper/button';
 
 interface VisitItemProps {
@@ -32,6 +33,23 @@ interface VisitItemProps {
 //   // }
 // };
 
+export const action = async ({ request, params }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  console.log(data);
+
+  try {
+    await customFetch.patch(`/${params.id}`, data);
+    toast.success('Visit added successfully ');
+    return null;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.error || 'Something went wrong';
+    toast.error(errorMessage);
+    console.error(error.response?.data?.details);
+    return error;
+  }
+};
+
 const VisitItem: FC<VisitItemProps> = ({ visit }) => {
   const [edit, setEdit] = useState(true);
 
@@ -39,11 +57,11 @@ const VisitItem: FC<VisitItemProps> = ({ visit }) => {
     <Card>
       <CardHeader status={visit.status}></CardHeader>
       <div className="relative flex gap-2 justify-end">
-        <Button_edit onEdit={() => setEdit(!edit)} />
+        <Button_edit onClick={() => setEdit(!edit)} />
         <Button_delete visit_id={visit.id} />
       </div>
-      <CardContent visit={visit} edit={edit}></CardContent>
-      <Form>
+      <Form method="post" action={`/visits/${visit.id}`}>
+        <CardContent visit={visit} edit={edit}></CardContent>
         <Button active={edit}>Edit</Button>
       </Form>
     </Card>

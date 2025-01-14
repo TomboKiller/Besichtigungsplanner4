@@ -30,15 +30,27 @@ export class VisitsController {
     return visits.map((visit) => this.mapVisitToResponse(visit));
   }
 
-  @Get('/deleted')
+  @Get('/archived')
   async getdeletedVisits(): Promise<GetVisitResponseDto[]> {
-    const visits = await this.visitsService.getdeletedVisits();
+    const visits = await this.visitsService.getarchivedVisits();
     return visits.map((visit) => this.mapVisitToResponse(visit));
   }
 
   @Delete('/:id')
   async deleteVisit(@Param('id') id: string): Promise<string> {
     return await this.visitsService.deleteVisit(id);
+  }
+
+  @Patch('/:id')
+  async updateVisit(
+    @Param('id') id: string,
+    @Body() updateVisitDto: CreateVisitDto,
+  ): Promise<GetVisitResponseDto> {
+    const updatedVisit = await this.visitsService.updateVisit(
+      id,
+      updateVisitDto,
+    );
+    return this.mapVisitToResponse(updatedVisit);
   }
 
   mapVisitToResponse(visit: VisitDocument): GetVisitResponseDto {

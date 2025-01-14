@@ -11,6 +11,7 @@ const statusColorClassMap: Record<GetVisitResponseDto['status'], string> = {
   interest: 'bg-gradient-to-r from-green-300 via-green-500 to-green-700',
   finish: 'bg-green-500',
   ignore: 'bg-gray-400',
+  delete: 'bg-gray-700',
 };
 const CardHeader: FC<CardHeaderProps> = ({ status }) => {
   return (

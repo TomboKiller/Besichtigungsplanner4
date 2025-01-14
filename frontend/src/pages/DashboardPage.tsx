@@ -6,6 +6,12 @@ import Modal from '../components/hyper/Modal';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 
+//Type definition for the loader data
+type LoaderData = {
+  visits: GetVisitResponseDto[];
+  visits_archived: GetVisitResponseDto[];
+};
+
 export const loader = () => async () => {
   // const data: GetVisitResponseDto[] = [
   //   {
@@ -34,10 +40,11 @@ export const loader = () => async () => {
 
   try {
     const visits = await customFetch<GetVisitResponseDto[]>('/');
-    const visits_deleted = await customFetch<GetVisitResponseDto[]>('/deleted');
+    const visits_archived =
+      await customFetch<GetVisitResponseDto[]>('/archived');
     const loaderData = {
       visits: visits.data,
-      visits_deleted: visits_deleted.data,
+      visits_archived: visits_archived.data,
     };
     return loaderData;
   } catch (error: any) {
@@ -49,15 +56,15 @@ export const loader = () => async () => {
 };
 
 const DashboardPage = () => {
-  const loaderData = useLoaderData() as GetVisitResponseDto[];
-  console.log(loaderData);
+  const loaderData = useLoaderData() as LoaderData;
 
   return (
     <>
       <Modal />
       <VisitList data={loaderData.visits} />
+      <h2 className="text-center italic">Archive</h2>
 
-      <Archive_visits visits_deleted={loaderData.visits_deleted} />
+      <Archive_visits visits_archived={loaderData.visits_archived} />
     </>
   );
 };
