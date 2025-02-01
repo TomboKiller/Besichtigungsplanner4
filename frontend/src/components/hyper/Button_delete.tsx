@@ -3,10 +3,14 @@ import { delete_visit } from '../../api_functions/api_buttons';
 // @ts-ignore
 import DeleteIcon from '../../assets/delete.svg?react';
 
-const Button_delete = ({ visit_id }) => {
+interface ButtonDeleteProps {
+  visit_id: string;
+}
+
+const Button_delete = ({ visit_id }: ButtonDeleteProps) => {
   const navigate = useNavigate();
   const handleClick = async () => {
-    await delete_visit({ visit_id });
+    await delete_visit(visit_id);
     navigate('/');
   };
 

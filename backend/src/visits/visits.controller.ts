@@ -61,7 +61,10 @@ export class VisitsController {
     const updateState = await this.visitsService.updateState(id, visit_status);
     return this.mapVisitToResponse(updateState);
   }
-
+  @Delete('/state/:id')
+  async ignoreVisit(@Param('id') id: string): Promise<string> {
+    return await this.visitsService.ignoreVisit(id);
+  }
   mapVisitToResponse(visit: VisitDocument): GetVisitResponseDto {
     return {
       id: visit._id.toString(),

@@ -114,4 +114,13 @@ export class VisitsService {
         return null;
     }
   }
+  async ignoreVisit(id: string): Promise<string> {
+    const visit = await this.visitModel.findById(id).exec();
+
+    if (!visit) {
+      throw new NotFoundException(`Visit with ID ${id} not found`);
+    }
+    await this.visitModel.findByIdAndUpdate(id, { status: 'ignore' }).exec();
+    return 'Visit deleted successfully';
+  }
 }

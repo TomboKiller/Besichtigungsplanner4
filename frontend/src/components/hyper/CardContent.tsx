@@ -51,10 +51,10 @@ const CardContent: FC<CardContentProps> = ({ visit, edit = false }) => {
         >
           <PersonIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
         </Input>
-         
+
         <DateInput
           name="datetime"
-          value={state.datetime}
+          value={state.datetime || ''}
           onChange={(datetime) => setState((c) => ({ ...c, datetime }))}
           disabled={edit}
         >

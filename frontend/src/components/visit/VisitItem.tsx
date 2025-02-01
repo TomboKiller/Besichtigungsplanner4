@@ -11,6 +11,7 @@ import customFetch from '../../utils/customFetch';
 import { toast } from 'react-toastify';
 import Button_good from '../hyper/Button_good';
 import ReactConfetti from 'react-confetti';
+import Button_bad from '../hyper/Button_bad';
 
 interface VisitItemProps {
   visit: GetVisitResponseDto;
@@ -52,7 +53,10 @@ const VisitItem: FC<VisitItemProps> = ({ visit }) => {
         <CardContent visit={visit} edit={edit}></CardContent>
         <Button active={edit}>Edit</Button>
       </Form>
-      <Button_good visit_id={visit.id} active={!edit} status={visit.status} />
+      <div className="flex gap-2 justify-center">
+        <Button_good visit_id={visit.id} active={!edit} status={visit.status} />
+        <Button_bad visit_id={visit.id} active={!edit} status={visit.status} />
+      </div>
       {visit.status === 'finish' && (
         <div className="pointer-events-none">
           <ReactConfetti />

@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { GetVisitResponseDto } from '../api/response.dto';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
@@ -8,7 +7,7 @@ type UpdateStateProps = {
   status: GetVisitResponseDto['status'];
 };
 
-export const delete_visit = async ({ visit_id }: string) => {
+export const delete_visit = async (visit_id: string) => {
   try {
     await customFetch.delete(`/${visit_id}`);
     toast.success('Visit deleted or restore successfully');
@@ -28,6 +27,20 @@ export const update_status_visit = async ({
   try {
     await customFetch.patch(`/state/${visit_id}`, { Status: status });
     toast.success('Visit Status updated successfully');
+    return null;
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || 'Something went wrong';
+    toast.error(errorMessage);
+    console.error(error.response?.data?.details);
+    return error;
+  }
+};
+
+export const ignore_visit = async (visit_id: string) => {
+  try {
+    await customFetch.delete(`/state/${visit_id}`);
+    toast.success('Anfrage wurde abgebrochen');
     return null;
   } catch (error: any) {
     const errorMessage =
