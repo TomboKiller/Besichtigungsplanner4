@@ -10,6 +10,7 @@ import { ActionFunctionArgs, Form } from 'react-router-dom';
 import customFetch from '../../utils/customFetch';
 import { toast } from 'react-toastify';
 import Button_good from '../hyper/Button_good';
+import ReactConfetti from 'react-confetti';
 
 interface VisitItemProps {
   visit: GetVisitResponseDto;
@@ -52,6 +53,11 @@ const VisitItem: FC<VisitItemProps> = ({ visit }) => {
         <Button active={edit}>Edit</Button>
       </Form>
       <Button_good visit_id={visit.id} active={!edit} status={visit.status} />
+      {visit.status === 'finish' && (
+        <div className="pointer-events-none">
+          <ReactConfetti />
+        </div>
+      )}
     </Card>
   );
 };

@@ -37,14 +37,14 @@ export class VisitsService {
 
   async getVisits(): Promise<VisitDocument[]> {
     return await this.visitModel
-      .find({ status: { $ne: 'delete' } })
-      .sort({ createdAt: -1 })
+      .find({ status: { $nin: ['delete', 'ignore'] } })
+      .sort({ status: 1, createdAt: -1 })
       .exec();
   }
   async getarchivedVisits(): Promise<VisitDocument[]> {
     return await this.visitModel
-      .find({ status: 'delete' })
-      .sort({ createdAt: -1 })
+      .find({ status: { $in: ['delete', 'ignore'] } })
+      .sort({ status: -1, createdAt: -1 })
       .exec();
   }
   async deleteVisit(id: string): Promise<string> {
@@ -52,6 +52,15 @@ export class VisitsService {
 
     if (!visit) {
       throw new NotFoundException(`Visit with ID ${id} not found`);
+    }
+
+    if (visit.status === 'delete') {
+      await this.visitModel.findByIdAndUpdate(id, { status: 'wait' }).exec();
+      return 'Visit restored successfully';
+    }
+    if (visit.status === 'ignore') {
+      await this.visitModel.findByIdAndUpdate(id, { status: 'wait' }).exec();
+      return 'Visit restored successfully';
     }
     await this.visitModel.findByIdAndUpdate(id, { status: 'delete' }).exec();
     // await this.visitModel.findByIdAndDelete(id).exec();
@@ -77,13 +86,9 @@ export class VisitsService {
   ): Promise<VisitDocument> {
     const visit = await this.visitModel.findById(id).select('status').exec();
 
-    console.log(visit.status);
-
-    console.log(visit_status.Status);
-
     if (visit.status !== visit_status.Status) {
       throw new NotFoundException(
-        `Der Status wurde bereits geändert. Bitte Laden Sie die Seite neu`,
+        `Der Status wurde bereits geändert auf: ${visit.status}`,
       );
     }
 
@@ -98,6 +103,10 @@ export class VisitsService {
           .findByIdAndUpdate(id, { status: 'interest' }, { new: true })
           .exec();
       case 'interest':
+        await this.visitModel.updateMany(
+          { _id: { $ne: id }, status: { $ne: 'delete' } },
+          { status: 'ignore' },
+        );
         return await this.visitModel
           .findByIdAndUpdate(id, { status: 'finish' }, { new: true })
           .exec();

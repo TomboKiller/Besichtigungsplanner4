@@ -1,7 +1,7 @@
 import { GetVisitResponseDto } from '../../api/response.dto';
 import { FC } from 'react';
 import { update_status_visit } from '../../api_functions/api_buttons';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Improved type definitions
 interface StatusButtonProps {
@@ -27,23 +27,23 @@ const STATUS_BUTTON_STYLES: Record<GetVisitResponseDto['status'], ButtonStyle> =
       ariaLabel: 'Mark as completed',
     },
     finish: {
-      color: 'bg-green-500',
-      buttonText: 'Abgeschlossen',
-      ariaLabel: 'Already completed',
+      color: 'hidden',
+      buttonText: '',
+      ariaLabel: '',
     },
     ignore: {
-      color: 'bg-gray-400',
-      buttonText: 'Ignoriert',
-      ariaLabel: 'Mark as ignored',
+      color: 'hidden',
+      buttonText: '',
+      ariaLabel: '',
     },
     wait: {
       color: 'bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700',
-      buttonText: 'Besichtigt',
+      buttonText: 'Gesehen',
       ariaLabel: 'Mark as visited',
     },
     see: {
-      color: 'bg-yellow-500',
-      buttonText: 'Gesehen',
+      color: 'bg-gradient-to-r from-violet-300 via-violet-500 to-violet-700',
+      buttonText: 'Interesse',
       ariaLabel: 'Mark as seen',
     },
     delete: {
@@ -56,7 +56,6 @@ const STATUS_BUTTON_STYLES: Record<GetVisitResponseDto['status'], ButtonStyle> =
 const Button_good: FC<StatusButtonProps> = ({ status, active, visit_id }) => {
   const navigate = useNavigate();
   const handleClick = async () => {
-    console.log(status);
     await update_status_visit({ visit_id, status });
     navigate('/');
   };

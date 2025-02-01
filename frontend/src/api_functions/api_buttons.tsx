@@ -11,7 +11,7 @@ type UpdateStateProps = {
 export const delete_visit = async ({ visit_id }: string) => {
   try {
     await customFetch.delete(`/${visit_id}`);
-    toast.success('Visit deleted successfully');
+    toast.success('Visit deleted or restore successfully');
     return null;
   } catch (error: any) {
     const errorMessage = error.response?.data?.error || 'Something went wrong';
@@ -30,7 +30,8 @@ export const update_status_visit = async ({
     toast.success('Visit Status updated successfully');
     return null;
   } catch (error: any) {
-    const errorMessage = error.response?.data?.error || 'Something went wrong';
+    const errorMessage =
+      error.response?.data?.message || 'Something went wrong';
     toast.error(errorMessage);
     console.error(error.response?.data?.details);
     return error;
