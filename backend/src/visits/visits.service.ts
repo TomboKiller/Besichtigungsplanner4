@@ -5,9 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Visit, VisitDocument } from './visits.entity';
+import { Visit, VisitDocument, VisitStatus } from './visits.entity';
 import { Model } from 'mongoose';
 import { CreateVisitDto } from 'src/api/request.dto';
+import { log } from 'console';
 
 @Injectable()
 export class VisitsService {
@@ -68,5 +69,40 @@ export class VisitsService {
     return await this.visitModel
       .findByIdAndUpdate(id, updateVisitDto, { new: true })
       .exec();
+  }
+
+  async updateState(
+    id: string,
+    visit_status: { Status: VisitStatus },
+  ): Promise<VisitDocument> {
+    const visit = await this.visitModel.findById(id).select('status').exec();
+
+    console.log(visit.status);
+
+    console.log(visit_status.Status);
+
+    if (visit.status !== visit_status.Status) {
+      throw new NotFoundException(
+        `Der Status wurde bereits geändert. Bitte Laden Sie die Seite neu`,
+      );
+    }
+
+    switch (visit.status) {
+      case 'wait':
+        return await this.visitModel
+          .findByIdAndUpdate(id, { status: 'see' }, { new: true })
+          .exec();
+
+      case 'see':
+        return await this.visitModel
+          .findByIdAndUpdate(id, { status: 'interest' }, { new: true })
+          .exec();
+      case 'interest':
+        return await this.visitModel
+          .findByIdAndUpdate(id, { status: 'finish' }, { new: true })
+          .exec();
+      default:
+        return null;
+    }
   }
 }

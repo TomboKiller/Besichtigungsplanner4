@@ -11,6 +11,7 @@ export class FindVisitDto {
 export class CreateVisitDto {
   @IsString()
   name: string;
+
   @IsOptional()
   @IsString()
   datetime: string;

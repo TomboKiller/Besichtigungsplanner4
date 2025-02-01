@@ -3,6 +3,7 @@ import type { FC } from 'react';
 interface ButtonProps {
   children: String;
   active?: boolean;
+  setEdit?: any;
 }
 
 const Button: FC<ButtonProps> = ({ children, active }) => {

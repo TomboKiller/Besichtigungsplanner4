@@ -17,7 +17,7 @@ export class Visit {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: Date, required: true }) // Define a date property
+  @Prop({ type: Date }) // Define a date property
   datetime: Date;
 
   @Prop()

@@ -10,7 +10,8 @@ import {
 import { CreateVisitDto } from 'src/api/request.dto';
 import { GetVisitResponseDto } from 'src/api/response.dto';
 import { VisitsService } from './visits.service';
-import { VisitDocument } from './visits.entity';
+import { Visit, VisitDocument, VisitStatus } from './visits.entity';
+import { stat } from 'fs';
 
 @Controller('api/v1/visits')
 export class VisitsController {
@@ -51,6 +52,14 @@ export class VisitsController {
       updateVisitDto,
     );
     return this.mapVisitToResponse(updatedVisit);
+  }
+  @Patch('/state/:id')
+  async updateState(
+    @Param('id') id: string,
+    @Body() visit_status: { Status: VisitStatus },
+  ): Promise<GetVisitResponseDto> {
+    const updateState = await this.visitsService.updateState(id, visit_status);
+    return this.mapVisitToResponse(updateState);
   }
 
   mapVisitToResponse(visit: VisitDocument): GetVisitResponseDto {

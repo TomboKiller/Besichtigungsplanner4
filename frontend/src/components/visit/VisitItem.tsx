@@ -9,29 +9,11 @@ import Button from '../hyper/Button';
 import { ActionFunctionArgs, Form } from 'react-router-dom';
 import customFetch from '../../utils/customFetch';
 import { toast } from 'react-toastify';
-
-// import Button from '../hyper/button';
+import Button_good from '../hyper/Button_good';
 
 interface VisitItemProps {
   visit: GetVisitResponseDto;
 }
-
-// export const action = async ({ request }: ActionFunctionArgs) => {
-//   const formData = await request.formData();
-//   const data = Object.fromEntries(formData);
-//   console.log(data);
-
-//   // try {
-//   //   await customFetch.post('/', data);
-//   //   toast.success('Visit added successfully ');
-//   //   return null;
-//   // } catch (error: any) {
-//   //   const errorMessage = error.response?.data?.error || 'Something went wrong';
-//   //   toast.error(errorMessage);
-//   //   console.error(error.response?.data?.details);
-//   //   return error;
-//   // }
-// };
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -40,7 +22,8 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
   try {
     await customFetch.patch(`/${params.id}`, data);
-    toast.success('Visit added successfully ');
+
+    toast.success('Visit updated successfully ');
     return null;
   } catch (error: any) {
     const errorMessage = error.response?.data?.error || 'Something went wrong';
@@ -60,10 +43,15 @@ const VisitItem: FC<VisitItemProps> = ({ visit }) => {
         <Button_edit onClick={() => setEdit(!edit)} />
         <Button_delete visit_id={visit.id} />
       </div>
-      <Form method="post" action={`/visits/${visit.id}`}>
+      <Form
+        method="post"
+        action={`/visits/${visit.id}`}
+        onSubmit={() => setEdit(!edit)}
+      >
         <CardContent visit={visit} edit={edit}></CardContent>
         <Button active={edit}>Edit</Button>
       </Form>
+      <Button_good visit_id={visit.id} active={!edit} status={visit.status} />
     </Card>
   );
 };
