@@ -17,7 +17,7 @@ const Button_bad: FC<StatusButtonProps> = ({ active, visit_id, status }) => {
   };
   return (
     <>
-      {status !== 'ignore' && (
+      {status !== 'ignore' && status !== 'delete' && (
         <div className="flex justify-center">
           <button
             className={`group inline-block rounded-full bg-gradient-to-r from-red-300 via-red-500 to-red-700 p-[3px] hover:text-white focus:outline-none active:text-opacity-75 ${

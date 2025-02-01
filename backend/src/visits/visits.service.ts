@@ -44,7 +44,7 @@ export class VisitsService {
   async getarchivedVisits(): Promise<VisitDocument[]> {
     return await this.visitModel
       .find({ status: { $in: ['delete', 'ignore'] } })
-      .sort({ status: -1, createdAt: -1 })
+      .sort({ createdAt: -1 })
       .exec();
   }
   async deleteVisit(id: string): Promise<string> {
