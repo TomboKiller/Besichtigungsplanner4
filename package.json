@@ -24,6 +24,7 @@
     "@nestjs/config": "^3.3.0",
     "@nestjs/swagger": "^8.1.0",
     "class-validator": "^0.14.1",
-    "concurrently": "^9.1.0"
+    "concurrently": "^9.1.0",
+    "moment": "^2.30.1"
   }
 }

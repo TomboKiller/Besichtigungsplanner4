@@ -15,6 +15,7 @@ import Job from '../../assets/job.svg?react';
 import Others from '../../assets/others.svg?react';
 
 import DateInput from './DateInput';
+import moment from 'moment';
 interface CardContentProps {
   visit?: GetVisitResponseDto;
   edit?: boolean;
@@ -36,6 +37,7 @@ const CardContent: FC<CardContentProps> = ({ visit, edit = false }) => {
   const [state, setState] = useState<GetVisitResponseDto>(
     visit || DEFAULT_STATE
   );
+  const formattedDate = moment(state.datetime).format('YYYY-MM-DDTHH:mm');
 
   return (
     <>
@@ -54,7 +56,7 @@ const CardContent: FC<CardContentProps> = ({ visit, edit = false }) => {
 
         <DateInput
           name="datetime"
-          value={state.datetime || ''}
+          value={formattedDate || ''}
           onChange={(datetime) => setState((c) => ({ ...c, datetime }))}
           disabled={edit}
         >
