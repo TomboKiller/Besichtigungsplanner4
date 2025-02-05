@@ -76,3 +76,6 @@ const DashboardPage = () => {
   );
 };
 export default DashboardPage;
+function customFetchRentals<T>(arg0: string) {
+  throw new Error('Function not implemented.');
+}

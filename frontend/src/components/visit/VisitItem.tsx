@@ -23,7 +23,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   console.log(data);
 
   try {
-    await customFetch.patch(`/${params.id}`, data);
+    await customFetch.patch(`/visits/${params.id}`, data);
     toast.success('Visit updated successfully ');
     return null;
   } catch (error: any) {

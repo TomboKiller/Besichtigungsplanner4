@@ -11,7 +11,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {
-    await customFetch.post('/', data);
+    await customFetch.post('/visits/', data);
     toast.success('Visit added successfully ');
     return null;
   } catch (error: any) {

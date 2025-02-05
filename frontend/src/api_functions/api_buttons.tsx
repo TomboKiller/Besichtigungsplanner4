@@ -9,7 +9,7 @@ type UpdateStateProps = {
 
 export const delete_visit = async (visit_id: string) => {
   try {
-    await customFetch.delete(`/${visit_id}`);
+    await customFetch.delete(`/visits/${visit_id}`);
     toast.success('Visit deleted or restore successfully');
     return null;
   } catch (error: any) {
@@ -25,7 +25,7 @@ export const update_status_visit = async ({
   status,
 }: UpdateStateProps) => {
   try {
-    await customFetch.patch(`/state/${visit_id}`, { Status: status });
+    await customFetch.patch(`/visits/state/${visit_id}`, { Status: status });
     toast.success('Visit Status updated successfully');
     return null;
   } catch (error: any) {
@@ -39,7 +39,7 @@ export const update_status_visit = async ({
 
 export const ignore_visit = async (visit_id: string) => {
   try {
-    await customFetch.delete(`/state/${visit_id}`);
+    await customFetch.delete(`/visits/state/${visit_id}`);
     toast.success('Anfrage wurde abgebrochen');
     return null;
   } catch (error: any) {
