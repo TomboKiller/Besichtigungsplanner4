@@ -1,7 +1,35 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { GetRentalResponseDto } from '../api/response_rentals.dto';
 
-const Sidebar = () => {
+interface RentalSidebarProps {
+  data: GetRentalResponseDto[];
+}
+
+const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAddingUnit, setIsAddingUnit] = useState(false);
+  const [newUnitName, setNewUnitName] = useState('');
+  const [units, setUnits] = useState(data);
+
+  const toggleAddUnit = () => {
+    setIsAddingUnit(!isAddingUnit);
+    // Reset input when closing
+    if (isAddingUnit) {
+      setNewUnitName('');
+    }
+  };
+
+  const handleAddUnit = () => {
+    if (newUnitName.trim()) {
+      const newUnit = {
+        id: units.length + 1,
+        name: newUnitName.trim(),
+      };
+      setUnits([...units, newUnit]);
+      setNewUnitName('');
+      setIsAddingUnit(false);
+    }
+  };
 
   return (
     <>
@@ -61,134 +89,92 @@ const Sidebar = () => {
             </svg>
           </button>
 
-          {/* Logo */}
-          <div className="mb-8 mt-2">
-            <img
-              src="/api/placeholder/120/40"
-              alt="Lesson Organizer"
-              className="h-10"
-            />
-          </div>
-
           {/* Main Navigation */}
           <div className="space-y-6">
             <div>
-              <h2 className="text-gray-500 text-sm font-medium mb-2">
-                MEIN BEREICH
-              </h2>
-              <nav className="space-y-1">
-                <a
-                  href="#"
-                  className="flex items-center text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
+              <div className="flex justify-between items-center">
+                <h2 className="text-gray-500 text-sm font-medium mb-2 mt-10">
+                  Wohneinheiten
+                </h2>
+                <button
+                  onClick={toggleAddUnit}
+                  className="inline-flex items-center ml-2"
                 >
                   <svg
-                    className="h-5 w-5 mr-3"
+                    className="h-5 w-5 text-blue-600 hover:text-blue-700"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    />
+                    {isAddingUnit ? (
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    ) : (
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 4v16m8-8H4"
+                      />
+                    )}
                   </svg>
-                  <span>Meine Unterrichtsstunden</span>
-                  <span className="ml-auto bg-gray-100 text-gray-600 px-2 rounded-md text-sm">
-                    1
-                  </span>
-                </a>
-                <a
-                  href="#"
-                  className="flex items-center text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
-                >
-                  <svg
-                    className="h-5 w-5 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                    />
-                  </svg>
-                  <span>Meine Verlaufspläne</span>
-                </a>
-              </nav>
-            </div>
+                </button>
+              </div>
 
-            <div>
-              <h2 className="text-gray-500 text-sm font-medium mb-2">
-                ARBEITSGRUPPEN
-              </h2>
-              <nav className="space-y-1">
-                <a
-                  href="#"
-                  className="flex items-center text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
-                >
-                  <span>test</span>
-                </a>
-              </nav>
-            </div>
-
-            <div>
-              <h2 className="text-gray-500 text-sm font-medium mb-2">
-                COMMUNITY
-              </h2>
-              <nav className="space-y-1">
-                <a
-                  href="#"
-                  className="flex items-center text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
-                >
-                  <svg
-                    className="h-5 w-5 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              {/* Add Unit Input */}
+              {isAddingUnit && (
+                <div className="mb-2 flex">
+                  <input
+                    type="text"
+                    value={newUnitName}
+                    onChange={(e) => setNewUnitName(e.target.value)}
+                    placeholder="Name der Wohneinheit"
+                    className="w-full px-2 py-1 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    autoFocus
+                  />
+                  <button
+                    onClick={handleAddUnit}
+                    className="bg-blue-500 text-white px-2 rounded-r-md hover:bg-blue-600"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>Öffentliche Stunden</span>
-                  <span className="ml-auto bg-gray-100 text-gray-600 px-2 rounded-md text-sm">
-                    28
-                  </span>
-                </a>
-              </nav>
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              )}
+
+              <div className="space-y-1">
+                {units.map((rental) => (
+                  <p
+                    key={rental.id}
+                    className="flex items-center text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
+                  >
+                    {rental.name}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Promotional Sections */}
-          <div className="mt-auto space-y-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <div className="text-blue-600">
-                <span className="text-xl">🎁</span>
-                <div className="mt-1">
-                  Teile deine Unterrichtsstunden mit der Community und gewinne
-                  eine Jahreslizenz!
-                </div>
-                <a href="#" className="text-blue-700 mt-2 block">
-                  Klicke hier für mehr Details
-                </a>
-              </div>
-            </div>
+          {/* Spacer to push profile to bottom */}
+          <div className="flex-grow" />
 
-            <div className="p-4 text-gray-700">
-              <a href="#" className="flex items-center text-blue-600">
-                <span className="text-red-500 mr-2">▶</span>
-                Video-Tutorial jetzt ansehen
-              </a>
-            </div>
-
-            {/* User Profile */}
+          {/* User Profile */}
+          <div className="mt-auto border-t pt-4">
             <div className="flex items-center p-2">
               <div className="w-10 h-10 rounded-full bg-red-700 flex items-center justify-center text-white">
                 DS

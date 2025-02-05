@@ -3,6 +3,8 @@ import { VisitsModule } from './visits/visits.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from './env.validation';
+import { RentalsController } from './rentals/rentals.controller';
+import { RentalsModule } from './rentals/rentals.module';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { validate } from './env.validation';
       inject: [ConfigService], // Inject ConfigService
     }),
     VisitsModule,
+    RentalsModule,
   ],
 })
 export class AppModule {}

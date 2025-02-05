@@ -6,10 +6,12 @@ import Modal from '../components/visit/Modal';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 import Sidebar from '../components/Sidebar';
+import { GetRentalResponseDto } from '../api/response_rentals.dto';
 
 type LoaderData = {
   visits: GetVisitResponseDto[];
   visits_archived: GetVisitResponseDto[];
+  rentals: GetRentalResponseDto[];
 };
 
 export const loader = () => async () => {
@@ -40,12 +42,15 @@ export const loader = () => async () => {
 
   try {
     const [visits, visits_archived] = await Promise.all([
-      customFetch<GetVisitResponseDto[]>('/'),
-      customFetch<GetVisitResponseDto[]>('/archived'),
+      customFetch<GetVisitResponseDto[]>('/visits'),
+      customFetch<GetVisitResponseDto[]>('/visits/archived'),
     ]);
+
+    const rentals = await customFetch<GetRentalResponseDto[]>('/rentals');
     const loaderData = {
       visits: visits.data,
       visits_archived: visits_archived.data,
+      rentals: rentals.data,
     };
     return loaderData;
   } catch (error: any) {
@@ -61,7 +66,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <Sidebar />
+      <Sidebar data={loaderData.rentals} />
       <Modal />
       <VisitList data={loaderData.visits} />
       <section className="mt-8">
