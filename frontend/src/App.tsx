@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { loader as allVisitsLoader } from './pages/DashboardPage';
-import { action as createVisitsAction } from './components/hyper/Modal';
+import { action as createVisitsAction } from './components/visit/Modal';
 // import { action as updateVisitAction } from './components/visit/VisitItem';
 import DashboardPage from './pages/DashboardPage';
 

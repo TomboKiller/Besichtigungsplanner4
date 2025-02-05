@@ -1,12 +1,12 @@
 import { useLoaderData } from 'react-router-dom';
 import VisitList from '../components/VisitList';
-import Archive_visits from '../components/hyper/Archive_visits';
+import Archive_visits from '../components/Archive_visits';
 import { GetVisitResponseDto } from '../api/response.dto'; // Adjust the import path as necessary
-import Modal from '../components/hyper/Modal';
+import Modal from '../components/visit/Modal';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
+import Sidebar from '../components/Sidebar';
 
-//Type definition for the loader data
 type LoaderData = {
   visits: GetVisitResponseDto[];
   visits_archived: GetVisitResponseDto[];
@@ -39,9 +39,10 @@ export const loader = () => async () => {
   // ];
 
   try {
-    const visits = await customFetch<GetVisitResponseDto[]>('/');
-    const visits_archived =
-      await customFetch<GetVisitResponseDto[]>('/archived');
+    const [visits, visits_archived] = await Promise.all([
+      customFetch<GetVisitResponseDto[]>('/'),
+      customFetch<GetVisitResponseDto[]>('/archived'),
+    ]);
     const loaderData = {
       visits: visits.data,
       visits_archived: visits_archived.data,
@@ -60,11 +61,12 @@ const DashboardPage = () => {
 
   return (
     <>
+      <Sidebar />
       <Modal />
       <VisitList data={loaderData.visits} />
-      <h2 className="text-center italic">Archive</h2>
-
-      <Archive_visits visits_archived={loaderData.visits_archived} />
+      <section className="mt-8">
+        <Archive_visits visits_archived={loaderData.visits_archived} />
+      </section>
     </>
   );
 };

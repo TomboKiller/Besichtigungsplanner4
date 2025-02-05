@@ -24,7 +24,6 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
   try {
     await customFetch.patch(`/${params.id}`, data);
-
     toast.success('Visit updated successfully ');
     return null;
   } catch (error: any) {

@@ -1,15 +1,15 @@
-import CardContent from './CardContent';
+import CardContent from '../hyper/CardContent';
 import { ActionFunctionArgs, Form } from 'react-router-dom';
-import Button from './Button';
+import Button from '../hyper/Button';
 import customFetch from '../../utils/customFetch';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+// @ts-ignore
+import Plus from '../../assets/plus.svg?react';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log(data);
-
   try {
     await customFetch.post('/', data);
     toast.success('Visit added successfully ');
@@ -41,17 +41,7 @@ const Modal = () => {
           onClick={() => setShowModal(!showModal)}
         >
           <span className="sr-only"> ADD </span>
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="25"
-            fill="currentColor"
-            className="bi bi-plus"
-            viewBox="0 0 16 16"
-          >
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-          </svg>
+          <Plus />
         </button>
       </div>
       {showModal && (

@@ -13,9 +13,9 @@ import Pets from '../../assets/pets.svg?react';
 import Job from '../../assets/job.svg?react';
 // @ts-ignore
 import Others from '../../assets/others.svg?react';
-
 import DateInput from './DateInput';
 import moment from 'moment';
+
 interface CardContentProps {
   visit?: GetVisitResponseDto;
   edit?: boolean;
@@ -56,7 +56,7 @@ const CardContent: FC<CardContentProps> = ({ visit, edit = false }) => {
 
         <DateInput
           name="datetime"
-          value={formattedDate || ''}
+          value={formattedDate}
           onChange={(datetime) => setState((c) => ({ ...c, datetime }))}
           disabled={edit}
         >
