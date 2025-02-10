@@ -1,5 +1,14 @@
 import { FC, useState } from 'react';
 import { GetRentalResponseDto } from '../api/response_rentals.dto';
+import { ActionFunctionArgs, Form } from 'react-router-dom';
+import { add_rental } from '../api_functions/api_add';
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  await add_rental(data);
+  return window.location.reload();
+};
 
 interface RentalSidebarProps {
   data: GetRentalResponseDto[];
@@ -16,18 +25,6 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
     // Reset input when closing
     if (isAddingUnit) {
       setNewUnitName('');
-    }
-  };
-
-  const handleAddUnit = () => {
-    if (newUnitName.trim()) {
-      const newUnit = {
-        id: units.length + 1,
-        name: newUnitName.trim(),
-      };
-      setUnits([...units, newUnit]);
-      setNewUnitName('');
-      setIsAddingUnit(false);
     }
   };
 
@@ -95,53 +92,12 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
               <div className="flex justify-between items-center">
                 <h2 className="text-gray-500 text-sm font-medium mb-2 mt-10">
                   Wohneinheiten
-                </h2>
-                <button
-                  onClick={toggleAddUnit}
-                  className="inline-flex items-center ml-2"
-                >
-                  <svg
-                    className="h-5 w-5 text-blue-600 hover:text-blue-700"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    {isAddingUnit ? (
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    ) : (
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 4v16m8-8H4"
-                      />
-                    )}
-                  </svg>
-                </button>
-              </div>
-
-              {/* Add Unit Input */}
-              {isAddingUnit && (
-                <div className="mb-2 flex">
-                  <input
-                    type="text"
-                    value={newUnitName}
-                    onChange={(e) => setNewUnitName(e.target.value)}
-                    placeholder="Name der Wohneinheit"
-                    className="w-full px-2 py-1 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    autoFocus
-                  />
                   <button
-                    onClick={handleAddUnit}
-                    className="bg-blue-500 text-white px-2 rounded-r-md hover:bg-blue-600"
+                    onClick={toggleAddUnit}
+                    className="inline-flex items-center ml-2 p-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full hover:from-green-500 hover:to-green-700"
                   >
                     <svg
-                      className="h-5 w-5"
+                      className="h-4 w-4 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -150,21 +106,93 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="M5 13l4 4L19 7"
+                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                       />
                     </svg>
                   </button>
-                </div>
+                </h2>
+              </div>
+
+              {/* Add Unit Input */}
+              {isAddingUnit && (
+                <Form method="post">
+                  <div className="mb-2 flex">
+                    <input
+                      type="text"
+                      name="name"
+                      value={newUnitName}
+                      onChange={(e) => setNewUnitName(e.target.value)}
+                      placeholder="Name der Wohneinheit"
+                      className="w-full px-2 py-1 border rounded-l-md"
+                      autoFocus
+                    />
+                    <button
+                      type="submit"
+                      className="bg-gradient-to-r from-green-400 to-green-600 text-white px-2 rounded-r-md hover:from-green-500 hover:to-green-700"
+                    >
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </Form>
               )}
 
               <div className="space-y-1">
                 {units.map((rental) => (
-                  <p
+                  <div
                     key={rental.id}
-                    className="flex items-center text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
+                    className="flex items-center justify-between text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
                   >
-                    {rental.name}
-                  </p>
+                    <span>{rental.name}</span>
+                    {isAddingUnit && (
+                      <div className="flex space-x-2">
+                        <button className="text-gray-500 hover:text-gray-700">
+                          <svg
+                            className="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          className="text-red-500 hover:text-red-700"
+                          title="Wohneinheit löschen"
+                        >
+                          <svg
+                            className="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
