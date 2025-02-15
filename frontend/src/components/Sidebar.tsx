@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { GetRentalResponseDto } from '../api/response_rentals.dto';
 import { ActionFunctionArgs, Form } from 'react-router-dom';
 import { add_rental } from '../api_functions/api_add';
@@ -23,6 +23,13 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
   const [newUnitName, setNewUnitName] = useState('');
   const [units, setUnits] = useState(data);
   const [state, setState] = useState(data);
+
+  useEffect(() => {
+    if (data.length === 0) {
+      setIsAddingUnit(true);
+      setIsOpen(true);
+    }
+  }, [data]);
 
   const toggleAddUnit = () => {
     setIsAddingUnit(!isAddingUnit);
@@ -179,7 +186,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                         useState((s) => ({ ...s, name }));
                       }}
                     >
-                      <HouseIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                      <HouseIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                     </Input>
                     {isAddingUnit && (
                       <div className="flex space-x-2">
