@@ -2,6 +2,9 @@ import { FC, useState } from 'react';
 import { GetRentalResponseDto } from '../api/response_rentals.dto';
 import { ActionFunctionArgs, Form } from 'react-router-dom';
 import { add_rental } from '../api_functions/api_add';
+import Input from './hyper/Input';
+
+import HouseIcon from '../assets/house.svg?react';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -19,6 +22,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
   const [isAddingUnit, setIsAddingUnit] = useState(false);
   const [newUnitName, setNewUnitName] = useState('');
   const [units, setUnits] = useState(data);
+  const [state, setState] = useState(data);
 
   const toggleAddUnit = () => {
     setIsAddingUnit(!isAddingUnit);
@@ -112,7 +116,19 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                   </button>
                 </h2>
               </div>
-
+              <svg
+                className="h-4 w-4 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                />
+              </svg>
               {/* Add Unit Input */}
               {isAddingUnit && (
                 <Form method="post">
@@ -122,7 +138,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                       name="name"
                       value={newUnitName}
                       onChange={(e) => setNewUnitName(e.target.value)}
-                      placeholder="Name der Wohneinheit"
+                      placeholder="Wohneinheit hinzufügen"
                       className="w-full px-2 py-1 border rounded-l-md"
                       autoFocus
                     />
@@ -154,30 +170,25 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                     key={rental.id}
                     className="flex items-center justify-between text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
                   >
-                    <span>{rental.name}</span>
+                    <Input
+                      name="name"
+                      disabled={!isAddingUnit}
+                      placeholder="Name*"
+                      value={rental.name}
+                      onChange={(name) => {
+                        useState((s) => ({ ...s, name }));
+                      }}
+                    >
+                      <HouseIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                    </Input>
                     {isAddingUnit && (
                       <div className="flex space-x-2">
-                        <button className="text-gray-500 hover:text-gray-700">
-                          <svg
-                            className="h-4 w-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                            />
-                          </svg>
-                        </button>
                         <button
-                          className="text-red-500 hover:text-red-700"
+                          className="bg-gradient-to-r from-red-400 to-red-600 text-white ml-1 px-2 pt-1 pb-1 rounded-md hover:from-red-500 hover:to-red-700"
                           title="Wohneinheit löschen"
                         >
                           <svg
-                            className="h-4 w-4"
+                            className="h-5 w-5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"

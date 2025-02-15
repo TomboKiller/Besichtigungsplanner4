@@ -8,7 +8,7 @@ interface VisitListProps {
 
 const VisitList: FC<VisitListProps> = ({ data }) => {
   return (
-    <div>
+    <div className="mx-2">
       {data.map((visit) => (
         <VisitItem key={visit.id} visit={visit} />
       ))}
