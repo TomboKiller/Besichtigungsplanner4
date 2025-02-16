@@ -20,7 +20,6 @@ interface VisitItemProps {
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log(data);
 
   try {
     await customFetch.patch(`/visits/${params.id}`, data);

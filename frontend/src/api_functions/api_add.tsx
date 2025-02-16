@@ -1,7 +1,6 @@
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
 import { CreateRentalDto } from '../api/request_rentals.dto';
-import { useNavigate } from 'react-router-dom';
 
 export const add_rental = async (data: CreateRentalDto) => {
   try {
@@ -15,7 +14,16 @@ export const add_rental = async (data: CreateRentalDto) => {
   }
 };
 
-export const edit_rental = async ({ params }, data: CreateRentalDto) => {
+interface EditRentalParams {
+  params: {
+    id: string;
+  };
+}
+
+export const edit_rental = async (
+  { params }: EditRentalParams,
+  data: CreateRentalDto
+) => {
   try {
     console.log(data);
 

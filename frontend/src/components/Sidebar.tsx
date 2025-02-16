@@ -1,17 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { GetRentalResponseDto } from '../api/response_rentals.dto';
-import { ActionFunctionArgs, Form } from 'react-router-dom';
-import { add_rental } from '../api_functions/api_add';
-import Input from './hyper/Input';
 
 import RentalItem from './rental/RentalItem';
-
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  await add_rental(data);
-  return window.location.reload();
-};
+import AddingRental from './rental/AddingRental';
 
 interface RentalSidebarProps {
   data: GetRentalResponseDto[];
@@ -20,9 +11,6 @@ interface RentalSidebarProps {
 const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingUnit, setIsAddingUnit] = useState(false);
-  const [newUnitName, setNewUnitName] = useState('');
-  const [units, setUnits] = useState(data);
-  const [state, setState] = useState(data);
 
   useEffect(() => {
     if (data.length === 0) {
@@ -32,11 +20,8 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
   }, [data]);
 
   const toggleAddUnit = () => {
-    setIsAddingUnit(!isAddingUnit);
-    // Reset input when closing
-    if (isAddingUnit) {
-      setNewUnitName('');
-    }
+    setIsAddingUnit(false);
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -65,7 +50,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30"
-          onClick={() => setIsOpen(false)}
+          onClick={toggleAddUnit}
         />
       )}
 
@@ -79,7 +64,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
         <div className="h-full overflow-y-auto p-4 flex flex-col">
           {/* Close Button */}
           <button
-            onClick={() => setIsOpen(false)}
+            onClick={toggleAddUnit}
             className="absolute top-4 right-4 p-2 rounded-md hover:bg-gray-100"
           >
             <svg
@@ -104,7 +89,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                 <h2 className="text-gray-500 text-sm font-medium mb-2 mt-10">
                   Wohneinheiten
                   <button
-                    onClick={toggleAddUnit}
+                    onClick={() => setIsAddingUnit(!isAddingUnit)}
                     className="inline-flex items-center ml-2 p-2 bg-gradient-to-r from-green-400 to-green-600 rounded-full hover:from-green-500 hover:to-green-700"
                   >
                     <svg
@@ -137,42 +122,14 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                 />
               </svg>
               {/* Add Unit Input */}
-              {isAddingUnit && (
-                <Form method="post">
-                  <div className="mb-2 flex">
-                    <input
-                      type="text"
-                      name="name"
-                      value={newUnitName}
-                      onChange={(e) => setNewUnitName(e.target.value)}
-                      placeholder="Wohneinheit hinzufügen"
-                      className="w-full px-2 py-1 border rounded-l-md"
-                      autoFocus
-                    />
-                    <button
-                      type="submit"
-                      className="bg-gradient-to-r from-green-400 to-green-600 text-white px-2 rounded-r-md hover:from-green-500 hover:to-green-700"
-                    >
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </Form>
-              )}
+              {isAddingUnit && <AddingRental />}
               <div className="space-y-1">
-                {units.map((rental) => (
-                  <RentalItem units={rental} isAddingUnit={isAddingUnit} />
+                {data.map((rental) => (
+                  <RentalItem
+                    units={rental}
+                    isAddingUnit={isAddingUnit}
+                    setisAddingUnit={setIsAddingUnit}
+                  />
                 ))}
               </div>
             </div>

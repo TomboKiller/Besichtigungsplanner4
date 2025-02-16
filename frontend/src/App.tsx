@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { loader as allVisitsLoader } from './pages/Overview';
 import { loader as allRentalsLoader } from './pages/DashboardPage';
 import { action as createVisitsAction } from './components/visit/Modal';
-import { action as createRentalAction } from './components/Sidebar';
+import { action as createRentalAction } from './components/rental/AddingRental';
 // import { action as updateVisitAction } from './components/visit/VisitItem';
 import DashboardPage from './pages/DashboardPage';
 

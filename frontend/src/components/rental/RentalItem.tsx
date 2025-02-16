@@ -3,31 +3,49 @@ import Input from '../hyper/Input';
 // @ts-ignore
 import HouseIcon from '../../assets/house.svg?react';
 import { GetRentalResponseDto } from '../../api/response_rentals.dto';
-import { ActionFunctionArgs, Form, useNavigate } from 'react-router-dom';
+import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
 import { edit_rental } from '../../api_functions/api_add';
+
+/* Mal ein test das css so zu verwenden */
+const styles = {
+  container: 'flex flex-col text-gray-700 p-2 rounded-md hover:bg-gray-100',
+  buttonContainer: 'flex flex-col space-y-2 mt-2 w-full',
+  buttonBase: 'w-full text-white px-2 py-1 rounded-md',
+  submitButton:
+    'bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700',
+  deleteButton:
+    'bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700',
+  iconBase: 'h-5 w-5 mx-auto',
+  houseIcon: 'absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4',
+};
 
 interface ListRentalProps {
   units: GetRentalResponseDto;
+  setisAddingUnit: (isAddingUnit: boolean) => void;
   isAddingUnit: boolean;
 }
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
-  const navigate = useNavigate();
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   await edit_rental({ params }, data);
-  return navigate('/');
+  return redirect('/');
 };
 
-const RentalItem: FC<ListRentalProps> = ({ units, isAddingUnit }) => {
+const RentalItem: FC<ListRentalProps> = ({
+  units,
+  isAddingUnit,
+  setisAddingUnit,
+}) => {
   const [state, setState] = useState<GetRentalResponseDto>(units);
   return (
     <div>
-      <div
-        key={units.id}
-        className="flex flex-col text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
-      >
-        <Form method="post" action={`/rentals/${units.id}`}>
+      <div key={units.id} className={styles.container}>
+        <Form
+          method="post"
+          onSubmit={() => setisAddingUnit(false)}
+          action={`/rentals/${units.id}`}
+        >
           <Input
             name="name"
             disabled={!isAddingUnit}
@@ -37,16 +55,16 @@ const RentalItem: FC<ListRentalProps> = ({ units, isAddingUnit }) => {
               setState((s) => ({ ...s, name }));
             }}
           >
-            <HouseIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+            <HouseIcon className={styles.houseIcon} />
           </Input>
           {isAddingUnit && (
-            <div className="flex flex-col gap-2 mt-2 w-full">
+            <div className={styles.buttonContainer}>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-green-400 to-green-600 text-white px-2 py-1 rounded-md hover:from-green-500 hover:to-green-700"
+                className={`${styles.buttonBase} ${styles.submitButton}`}
               >
                 <svg
-                  className="h-5 w-5 mx-auto"
+                  className={styles.iconBase}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -60,11 +78,11 @@ const RentalItem: FC<ListRentalProps> = ({ units, isAddingUnit }) => {
                 </svg>
               </button>
               <button
-                className="w-full bg-gradient-to-r from-red-400 to-red-600 text-white px-2 pt-1 pb-1 rounded-md hover:from-red-500 hover:to-red-700"
+                className={`${styles.buttonBase} ${styles.deleteButton}`}
                 title="Wohneinheit löschen"
               >
                 <svg
-                  className="h-5 w-5 mx-auto"
+                  className={styles.iconBase}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
