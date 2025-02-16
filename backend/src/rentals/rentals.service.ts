@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateRentalDto } from 'src/api/request_rentals.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Rental, RentalDocument } from './entities/rental.entity';
@@ -31,5 +36,19 @@ export class RentalsService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  async updateRental(
+    id: string,
+    updateRentalDto: CreateRentalDto,
+  ): Promise<RentalDocument> {
+    const rental = await this.rentalModel.findById(id).exec();
+
+    if (!rental) {
+      throw new NotFoundException(`Rental with ID ${id} not found`);
+    }
+    return await this.rentalModel
+      .findByIdAndUpdate(id, updateRentalDto, { new: true })
+      .exec();
   }
 }

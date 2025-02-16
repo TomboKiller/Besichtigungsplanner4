@@ -14,3 +14,17 @@ export const add_rental = async (data: CreateRentalDto) => {
     return error;
   }
 };
+
+export const edit_rental = async ({ params }, data: CreateRentalDto) => {
+  try {
+    console.log(data);
+
+    await customFetch.patch(`/rentals/${params.id}`, data);
+    toast.success('Rental updated successfully ');
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.error || 'Something went wrong';
+    toast.error(errorMessage);
+    console.error(error.response?.data?.details);
+    return error;
+  }
+};

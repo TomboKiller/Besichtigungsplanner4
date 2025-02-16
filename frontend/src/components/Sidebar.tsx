@@ -4,7 +4,7 @@ import { ActionFunctionArgs, Form } from 'react-router-dom';
 import { add_rental } from '../api_functions/api_add';
 import Input from './hyper/Input';
 
-import HouseIcon from '../assets/house.svg?react';
+import RentalItem from './rental/RentalItem';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -72,7 +72,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
       {/* Sidebar */}
       <div
         className={`
-        fixed top-0 left-0 h-screen w-64 bg-white z-40 transform transition-transform duration-300 ease-in-out
+        fixed top-0 left-0 h-screen w-80 bg-white z-40 transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}
       >
@@ -170,52 +170,13 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                   </div>
                 </Form>
               )}
-
               <div className="space-y-1">
                 {units.map((rental) => (
-                  <div
-                    key={rental.id}
-                    className="flex items-center justify-between text-gray-700 px-2 py-2 rounded-md hover:bg-gray-100"
-                  >
-                    <Input
-                      name="name"
-                      disabled={!isAddingUnit}
-                      placeholder="Name*"
-                      value={rental.name}
-                      onChange={(name) => {
-                        useState((s) => ({ ...s, name }));
-                      }}
-                    >
-                      <HouseIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
-                    </Input>
-                    {isAddingUnit && (
-                      <div className="flex space-x-2">
-                        <button
-                          className="bg-gradient-to-r from-red-400 to-red-600 text-white ml-1 px-2 pt-1 pb-1 rounded-md hover:from-red-500 hover:to-red-700"
-                          title="Wohneinheit löschen"
-                        >
-                          <svg
-                            className="h-5 w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                  <RentalItem units={rental} isAddingUnit={isAddingUnit} />
                 ))}
               </div>
             </div>
           </div>
-
           {/* Spacer to push profile to bottom */}
           <div className="flex-grow" />
 

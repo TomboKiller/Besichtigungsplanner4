@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 import { GetRentalResponseDto } from 'src/api/response_rentals.dto';
 import { RentalsService } from './rentals.service';
 import { RentalDocument } from './entities/rental.entity';
@@ -19,6 +19,18 @@ export class RentalsController {
   ): Promise<GetRentalResponseDto> {
     const newRental = await this.rentalsService.createRental(createRentalDto);
     return this.mapRentalToResponse(newRental);
+  }
+
+  @Patch('/:id')
+  async updateRental(
+    @Param('id') id: string,
+    @Body() updateRentalDto: CreateRentalDto,
+  ): Promise<GetRentalResponseDto> {
+    const updatedRental = await this.rentalsService.updateRental(
+      id,
+      updateRentalDto,
+    );
+    return this.mapRentalToResponse(updatedRental);
   }
 
   mapRentalToResponse(visit: RentalDocument): GetRentalResponseDto {

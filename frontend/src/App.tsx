@@ -8,6 +8,7 @@ import { action as createRentalAction } from './components/Sidebar';
 import DashboardPage from './pages/DashboardPage';
 
 import { action as updateVisitAction } from './components/visit/VisitItem';
+import { action as updateRentalAction } from './components/rental/RentalItem';
 import Overview from './pages/Overview';
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: 'visits/:id',
         action: updateVisitAction,
+      },
+      {
+        path: 'rentals/:id',
+        action: updateRentalAction,
       },
     ],
   },
