@@ -51,4 +51,15 @@ export class RentalsService {
       .findByIdAndUpdate(id, updateRentalDto, { new: true })
       .exec();
   }
+
+  async deleteVisit(id: string): Promise<string> {
+    const rental = await this.rentalModel.findById(id).exec();
+
+    if (!rental) {
+      throw new NotFoundException(`Rental with ID ${id} not found`);
+    }
+
+    await this.rentalModel.findByIdAndUpdate(id, { status: 'delete' }).exec();
+    return 'Rental deleted successfully';
+  }
 }

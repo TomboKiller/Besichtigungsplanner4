@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { GetRentalResponseDto } from 'src/api/response_rentals.dto';
 import { RentalsService } from './rentals.service';
 import { RentalDocument } from './entities/rental.entity';
@@ -31,6 +39,11 @@ export class RentalsController {
       updateRentalDto,
     );
     return this.mapRentalToResponse(updatedRental);
+  }
+
+  @Delete('/:id')
+  async deleteRental(@Param('id') id: string): Promise<string> {
+    return await this.rentalsService.deleteVisit(id);
   }
 
   mapRentalToResponse(visit: RentalDocument): GetRentalResponseDto {

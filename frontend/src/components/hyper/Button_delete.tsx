@@ -1,13 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { delete_visit } from '../../api_functions/api_buttons';
+import { delete_rental, delete_visit } from '../../api_functions/api_buttons';
 // @ts-ignore
 import DeleteIcon from '../../assets/delete.svg?react';
 
-interface ButtonDeleteProps {
+interface ButtonDeleteVisitProps {
   visit_id: string;
 }
+interface ButtonDeleteRentalProps {
+  rental_id: string;
+}
 
-const Button_delete = ({ visit_id }: ButtonDeleteProps) => {
+export const Button_delete_visititem = ({
+  visit_id,
+}: ButtonDeleteVisitProps) => {
   const navigate = useNavigate();
   const handleClick = async () => {
     await delete_visit(visit_id);
@@ -26,4 +31,35 @@ const Button_delete = ({ visit_id }: ButtonDeleteProps) => {
     </button>
   );
 };
-export default Button_delete;
+
+export const Button_delete_rentalitem = ({
+  rental_id,
+}: ButtonDeleteRentalProps) => {
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    await delete_rental(rental_id);
+    navigate('/');
+  };
+
+  return (
+    <button
+      className={`w-full text-white px-2 py-1 rounded-md bg-gradient-to-r from-red-400 to-red-600 hover:from-red-500 hover:to-red-700`}
+      title="Wohneinheit löschen"
+      onClick={handleClick}
+    >
+      <svg
+        className="h-5 w-5 mx-auto"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+  );
+};

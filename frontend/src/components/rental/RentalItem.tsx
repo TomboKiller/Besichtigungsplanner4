@@ -5,6 +5,7 @@ import HouseIcon from '../../assets/house.svg?react';
 import { GetRentalResponseDto } from '../../api/response_rentals.dto';
 import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
 import { edit_rental } from '../../api_functions/api_add';
+import { Button_delete_rentalitem } from '../hyper/Button_delete';
 
 /* Mal ein test das css so zu verwenden */
 const styles = {
@@ -77,24 +78,7 @@ const RentalItem: FC<ListRentalProps> = ({
                   />
                 </svg>
               </button>
-              <button
-                className={`${styles.buttonBase} ${styles.deleteButton}`}
-                title="Wohneinheit löschen"
-              >
-                <svg
-                  className={styles.iconBase}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+              <Button_delete_rentalitem rental_id={units.id} />
             </div>
           )}
         </Form>

@@ -4,7 +4,7 @@ import Card from '../hyper/Card';
 import { GetVisitResponseDto } from '../../api/response.dto';
 import CardContent from '../hyper/CardContent';
 import Button_edit from '../hyper/Button_edit';
-import Button_delete from '../hyper/Button_delete';
+import { Button_delete_visititem } from '../hyper/Button_delete';
 import Button from '../hyper/Button';
 import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
 import customFetch from '../../utils/customFetch';
@@ -41,7 +41,7 @@ const VisitItem: FC<VisitItemProps> = ({ visit }) => {
       <CardHeader status={visit.status}></CardHeader>
       <div className="relative flex gap-2 justify-end">
         <Button_edit onClick={() => setEdit(!edit)} />
-        <Button_delete visit_id={visit.id} />
+        <Button_delete_visititem visit_id={visit.id} />
       </div>
       <Form
         method="post"
