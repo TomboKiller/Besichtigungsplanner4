@@ -21,6 +21,9 @@ export class Rental {
 
   @Prop({ default: Date.now }) // Add the createdAt property with a default value
   createdAt: Date;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Visit' }] })
+  visits: Types.ObjectId[];
 }
 
 export const RentalSchema = SchemaFactory.createForClass(Rental);

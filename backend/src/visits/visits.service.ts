@@ -9,20 +9,35 @@ import { Visit, VisitDocument, VisitStatus } from './visits.entity';
 import { Model } from 'mongoose';
 import { CreateVisitDto } from 'src/api/request.dto';
 import { log } from 'console';
+import { Rental, RentalDocument } from '../rentals/entities/rental.entity';
 
 @Injectable()
 export class VisitsService {
   constructor(
     @InjectModel(Visit.name) private readonly visitModel: Model<VisitDocument>,
+    @InjectModel(Rental.name)
+    private readonly rentalModel: Model<RentalDocument>,
   ) {}
 
   async createVisit(createVisitDto: CreateVisitDto): Promise<VisitDocument> {
     try {
+      const rental = await this.rentalModel.findById(createVisitDto.rental);
+      if (!rental) {
+        throw new NotFoundException(
+          `Rental ${createVisitDto.rental} not found`,
+        );
+      }
       const newVisit = new this.visitModel({
         ...createVisitDto,
         status: 'wait',
       });
-      return await newVisit.save();
+      const savedVisit = await newVisit.save();
+
+      await this.rentalModel.updateOne(
+        { _id: createVisitDto.rental },
+        { $push: { visits: savedVisit._id } },
+      );
+      return savedVisit;
     } catch (error) {
       throw new HttpException(
         {
@@ -38,6 +53,20 @@ export class VisitsService {
   async getVisits(): Promise<VisitDocument[]> {
     return await this.visitModel
       .find({ status: { $nin: ['delete', 'ignore'] } })
+      .sort({ status: 1, createdAt: -1 })
+      .exec();
+  }
+
+  async getRentalVisits(rental_id: string): Promise<VisitDocument[]> {
+    const rental = await this.rentalModel.findById(rental_id);
+    if (!rental) {
+      throw new NotFoundException(`Rental with ID ${rental_id} not found`);
+    }
+    return await this.visitModel
+      .find({
+        rental: rental_id,
+        status: { $nin: ['delete', 'ignore'] },
+      })
       .sort({ status: 1, createdAt: -1 })
       .exec();
   }

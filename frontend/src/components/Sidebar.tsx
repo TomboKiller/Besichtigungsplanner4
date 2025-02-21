@@ -128,6 +128,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                   <RentalItem
                     units={rental}
                     isAddingUnit={isAddingUnit}
+                    setIsOpen={setIsOpen}
                     setisAddingUnit={setIsAddingUnit}
                   />
                 ))}

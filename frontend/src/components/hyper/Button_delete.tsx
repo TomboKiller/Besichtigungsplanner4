@@ -2,9 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { delete_rental, delete_visit } from '../../api_functions/api_buttons';
 // @ts-ignore
 import DeleteIcon from '../../assets/delete.svg?react';
-
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 
 interface ButtonDeleteVisitProps {
   visit_id: string;

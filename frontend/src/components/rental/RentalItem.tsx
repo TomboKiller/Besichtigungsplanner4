@@ -3,7 +3,7 @@ import Input from '../hyper/Input';
 // @ts-ignore
 import HouseIcon from '../../assets/house.svg?react';
 import { GetRentalResponseDto } from '../../api/response_rentals.dto';
-import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
+import { ActionFunctionArgs, Form, NavLink, redirect } from 'react-router-dom';
 import { edit_rental } from '../../api_functions/api_add';
 import { Button_delete_rentalitem } from '../hyper/Button_delete';
 
@@ -24,6 +24,7 @@ interface ListRentalProps {
   units: GetRentalResponseDto;
   setisAddingUnit: (isAddingUnit: boolean) => void;
   isAddingUnit: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
@@ -37,6 +38,7 @@ const RentalItem: FC<ListRentalProps> = ({
   units,
   isAddingUnit,
   setisAddingUnit,
+  setIsOpen,
 }) => {
   const [state, setState] = useState<GetRentalResponseDto>(units);
   return (
@@ -47,39 +49,47 @@ const RentalItem: FC<ListRentalProps> = ({
           onSubmit={() => setisAddingUnit(false)}
           action={`/rentals/${units.id}`}
         >
-          <Input
-            name="name"
-            disabled={!isAddingUnit}
-            placeholder="Name*"
-            value={state.name}
-            onChange={(name) => {
-              setState((s) => ({ ...s, name }));
-            }}
-          >
-            <HouseIcon className={styles.houseIcon} />
-          </Input>
-
-          {isAddingUnit && (
-            <div className={styles.buttonContainer}>
-              <button
-                type="submit"
-                className={`${styles.buttonBase} ${styles.submitButton}`}
+          {!isAddingUnit ? (
+            <NavLink
+              to={`/rental/${units.id}`}
+              onClick={() => setIsOpen(false)}
+            >
+              {state.name}
+            </NavLink>
+          ) : (
+            <>
+              <Input
+                name="name"
+                disabled={!isAddingUnit}
+                placeholder="Name*"
+                value={state.name}
+                onChange={(name) => {
+                  setState((s) => ({ ...s, name }));
+                }}
               >
-                <svg
-                  className={styles.iconBase}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                <HouseIcon className={styles.houseIcon} />
+              </Input>
+              <div className={styles.buttonContainer}>
+                <button
+                  type="submit"
+                  className={`${styles.buttonBase} ${styles.submitButton}`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </button>
-            </div>
+                  <svg
+                    className={styles.iconBase}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </>
           )}
         </Form>
         {isAddingUnit && (

@@ -22,7 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 };
 
-const Modal = () => {
+const Modal = ({ param }) => {
   const [showModal, setShowModal] = useState(false);
 
   // useEffect(() => {
@@ -55,6 +55,7 @@ const Modal = () => {
               }}
               className="form"
             >
+              <input type="hidden" name="rental" value={param} />
               <CardContent />
               <Button> ADD </Button>
             </Form>

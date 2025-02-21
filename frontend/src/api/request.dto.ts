@@ -28,6 +28,9 @@ export class CreateVisitDto {
   @IsOptional()
   @IsString()
   other?: string;
+
+  @IsMongoId()
+  rental: string;
 }
 
 export class PaginateQueryDto {

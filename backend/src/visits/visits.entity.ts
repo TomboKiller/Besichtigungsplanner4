@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
+
 export const VISIT_STATUS_VALUES = <const>[
   'wait',
   'see',
@@ -37,6 +38,9 @@ export class Visit {
 
   @Prop({ default: Date.now }) // Add the createdAt property with a default value
   createdAt: Date;
+
+  @Prop({ type: Types.ObjectId, ref: 'Rental', required: true })
+  rental: Types.ObjectId;
 }
 
 export const VisitSchema = SchemaFactory.createForClass(Visit);

@@ -37,6 +37,14 @@ export class VisitsController {
     return visits.map((visit) => this.mapVisitToResponse(visit));
   }
 
+  @Get('/:rental_id')
+  async getRentalVisits(
+    @Param('rental_id') rental_id: string,
+  ): Promise<GetVisitResponseDto[]> {
+    const visits = await this.visitsService.getRentalVisits(rental_id);
+    return visits.map((visit) => this.mapVisitToResponse(visit));
+  }
+
   @Delete('/:id')
   async deleteVisit(@Param('id') id: string): Promise<string> {
     return await this.visitsService.deleteVisit(id);
