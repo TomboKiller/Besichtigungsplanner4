@@ -3,6 +3,9 @@ import { delete_rental, delete_visit } from '../../api_functions/api_buttons';
 // @ts-ignore
 import DeleteIcon from '../../assets/delete.svg?react';
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 interface ButtonDeleteVisitProps {
   visit_id: string;
 }
@@ -14,9 +17,20 @@ export const Button_delete_visititem = ({
   visit_id,
 }: ButtonDeleteVisitProps) => {
   const navigate = useNavigate();
-  const handleClick = async () => {
-    await delete_visit(visit_id);
-    navigate('/');
+  const handleClick = () => {
+    Swal.fire({
+      title: 'Bist du dir sicher?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'rgb(32, 158, 0)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ja, löschen!',
+      cancelButtonText: 'Abbrechen',
+      preConfirm: async () => {
+        await delete_visit(visit_id);
+        navigate('/');
+      },
+    });
   };
 
   return (
@@ -37,8 +51,20 @@ export const Button_delete_rentalitem = ({
 }: ButtonDeleteRentalProps) => {
   const navigate = useNavigate();
   const handleClick = async () => {
-    await delete_rental(rental_id);
-    navigate('/');
+    Swal.fire({
+      title: 'Bist du dir sicher?',
+      icon: 'warning',
+      text: 'Die Wohneinheit und alle Besichtigungen werden unwiderruflich gelöscht!',
+      showCancelButton: true,
+      confirmButtonColor: 'rgb(32, 158, 0)',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ja, löschen!',
+      cancelButtonText: 'Abbrechen',
+      preConfirm: async () => {
+        await delete_rental(rental_id);
+        navigate('/');
+      },
+    });
   };
 
   return (
@@ -63,3 +89,6 @@ export const Button_delete_rentalitem = ({
     </button>
   );
 };
+function setInputValue(arg0: string) {
+  throw new Error('Function not implemented.');
+}

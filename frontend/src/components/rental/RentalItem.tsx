@@ -58,6 +58,7 @@ const RentalItem: FC<ListRentalProps> = ({
           >
             <HouseIcon className={styles.houseIcon} />
           </Input>
+
           {isAddingUnit && (
             <div className={styles.buttonContainer}>
               <button
@@ -78,10 +79,15 @@ const RentalItem: FC<ListRentalProps> = ({
                   />
                 </svg>
               </button>
-              <Button_delete_rentalitem rental_id={units.id} />
             </div>
           )}
         </Form>
+        {isAddingUnit && (
+          <div className={styles.buttonContainer}>
+            {' '}
+            <Button_delete_rentalitem rental_id={units.id} />{' '}
+          </div>
+        )}
       </div>
     </div>
   );

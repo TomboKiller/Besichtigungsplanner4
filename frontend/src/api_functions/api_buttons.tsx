@@ -23,7 +23,7 @@ export const delete_visit = async (visit_id: string) => {
 export const delete_rental = async (rental_id: string) => {
   try {
     await customFetch.delete(`/rentals/${rental_id}`);
-    toast.success('Rental deleted or restore successfully');
+    toast.success('Wohneinheit erfolgreich gelöscht');
     return null;
   } catch (error: any) {
     const errorMessage = error.response?.data?.error || 'Something went wrong';

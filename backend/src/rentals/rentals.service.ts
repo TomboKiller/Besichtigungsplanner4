@@ -17,7 +17,10 @@ export class RentalsService {
   ) {}
 
   async getRentals(): Promise<RentalDocument[]> {
-    return await this.rentalModel.find().sort({ createdAt: -1 }).exec();
+    return await this.rentalModel
+      .find({ status: { $ne: 'delete' } })
+      .sort({ createdAt: -1 })
+      .exec();
   }
 
   async createRental(
