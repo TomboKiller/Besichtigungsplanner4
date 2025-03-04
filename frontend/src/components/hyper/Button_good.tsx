@@ -57,7 +57,7 @@ const Button_good: FC<StatusButtonProps> = ({ status, active, visit_id }) => {
   const navigate = useNavigate();
   const handleClick = async () => {
     await update_status_visit({ visit_id, status });
-    navigate('/');
+    navigate('.');
   };
 
   return (

@@ -15,6 +15,7 @@ import Job from '../../assets/job.svg?react';
 import Others from '../../assets/others.svg?react';
 import DateInput from './DateInput';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 
 interface CardContentProps {
   visit?: GetVisitResponseDto;

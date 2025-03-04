@@ -132,8 +132,13 @@ export class VisitsService {
           .findByIdAndUpdate(id, { status: 'interest' }, { new: true })
           .exec();
       case 'interest':
+        const visit = await this.visitModel.findById(id);
         await this.visitModel.updateMany(
-          { _id: { $ne: id }, status: { $ne: 'delete' } },
+          {
+            _id: { $ne: id },
+            rental: visit.rental,
+            status: { $ne: 'delete' },
+          },
           { status: 'ignore' },
         );
         return await this.visitModel

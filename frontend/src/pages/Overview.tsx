@@ -12,31 +12,6 @@ type LoaderData = {
 };
 
 export const loader = () => async () => {
-  // const data: GetVisitResponseDto[] = [
-  //   {
-  //     id: '1',
-  //     name: 'John Doe',
-  //     datetime: '2021-09-01T12:00:00Z',
-  //     numberOfPeople: '2',
-  //     pets: '1',
-  //     jobTitle: 'Software Engineer',
-  //     other: 'Other information',
-  //     status: 'see',
-  //     createdAt: '2021-09-01T12:00:00Z',
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'Jane Smith',
-  //     datetime: '2021-09-02T14:00:00Z',
-  //     numberOfPeople: '3',
-  //     pets: '0',
-  //     jobTitle: 'Product Manager',
-  //     other: 'Additional information',
-  //     status: 'wait',
-  //     createdAt: '2021-09-02T14:00:00Z',
-  //   },
-  // ];
-
   try {
     const [visits, visits_archived] = await Promise.all([
       customFetch<GetVisitResponseDto[]>('/visits'),
@@ -61,7 +36,9 @@ const Overview = () => {
 
   return (
     <>
-      <Modal />
+      <h2 className="text-center my-6 text-3xl  text-gray-600">
+        Überblick aller geplanter Besichtigungen
+      </h2>
       <VisitList data={loaderData.visits} />
       <section className="mt-8">
         <Archive_visits visits_archived={loaderData.visits_archived} />

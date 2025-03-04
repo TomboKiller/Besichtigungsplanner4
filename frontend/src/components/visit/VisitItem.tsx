@@ -6,7 +6,12 @@ import CardContent from '../hyper/CardContent';
 import Button_edit from '../hyper/Button_edit';
 import { Button_delete_visititem } from '../hyper/Button_delete';
 import Button from '../hyper/Button';
-import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
+import {
+  ActionFunctionArgs,
+  Form,
+  redirect,
+  useNavigate,
+} from 'react-router-dom';
 import customFetch from '../../utils/customFetch';
 import { toast } from 'react-toastify';
 import Button_good from '../hyper/Button_good';
@@ -24,7 +29,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   try {
     await customFetch.patch(`/visits/${params.id}`, data);
     toast.success('Visit updated successfully ');
-    return redirect('/');
+    return null;
   } catch (error: any) {
     const errorMessage = error.response?.data?.error || 'Something went wrong';
     toast.error(errorMessage);

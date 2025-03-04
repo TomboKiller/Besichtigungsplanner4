@@ -26,7 +26,7 @@ export const Button_delete_visititem = ({
       cancelButtonText: 'Abbrechen',
       preConfirm: async () => {
         await delete_visit(visit_id);
-        navigate('/');
+        navigate('.');
       },
     });
   };

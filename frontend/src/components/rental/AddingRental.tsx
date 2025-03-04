@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 // @ts-ignore
 import HouseIcon from '../../assets/house.svg?react';
+// @ts-ignore
+import TickIcon from '../../assets/tick.svg?react';
 import Input from '../hyper/Input';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -36,19 +38,7 @@ const AddingRental = () => {
               type="submit"
               className="w-full text-white px-2 py-1 rounded-md bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700"
             >
-              <svg
-                className="h-5 w-5 mx-auto"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
+              <TickIcon className="h-5 w-5 mx-auto" />
             </button>
           </div>
         </Form>

@@ -25,6 +25,7 @@ interface ListRentalProps {
   setisAddingUnit: (isAddingUnit: boolean) => void;
   isAddingUnit: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  isActive?: boolean;
 }
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
@@ -39,11 +40,15 @@ const RentalItem: FC<ListRentalProps> = ({
   isAddingUnit,
   setisAddingUnit,
   setIsOpen,
+  isActive,
 }) => {
   const [state, setState] = useState<GetRentalResponseDto>(units);
   return (
     <div>
-      <div key={units.id} className={styles.container}>
+      <div
+        key={units.id}
+        className={`${styles.container} ${isActive ? 'bg-gray-100 border border-gray-400' : ''} `}
+      >
         <Form
           method="post"
           onSubmit={() => setisAddingUnit(false)}

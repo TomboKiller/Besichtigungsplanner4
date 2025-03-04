@@ -30,7 +30,7 @@ export class CreateVisitDto {
   other?: string;
 
   @IsMongoId()
-  rental: string;
+  rental?: string;
 }
 
 export class PaginateQueryDto {

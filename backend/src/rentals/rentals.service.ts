@@ -23,6 +23,10 @@ export class RentalsService {
       .exec();
   }
 
+  async getSingleRental(id: string): Promise<RentalDocument> {
+    return await this.rentalModel.findById(id).exec();
+  }
+
   async createRental(
     createRentalDto: CreateRentalDto,
   ): Promise<RentalDocument> {

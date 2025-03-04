@@ -13,7 +13,7 @@ const Button_bad: FC<StatusButtonProps> = ({ active, visit_id, status }) => {
   const navigate = useNavigate();
   const handleClick = async () => {
     await ignore_visit(visit_id);
-    navigate('/');
+    navigate('.');
   };
   return (
     <>

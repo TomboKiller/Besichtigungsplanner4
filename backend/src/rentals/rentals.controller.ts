@@ -11,6 +11,7 @@ import { GetRentalResponseDto } from 'src/api/response_rentals.dto';
 import { RentalsService } from './rentals.service';
 import { RentalDocument } from './entities/rental.entity';
 import { CreateRentalDto } from 'src/api/request_rentals.dto';
+
 @Controller('api/v1/rentals')
 export class RentalsController {
   constructor(private readonly rentalsService: RentalsService) {}
@@ -19,6 +20,13 @@ export class RentalsController {
   async getRentals(): Promise<GetRentalResponseDto[]> {
     const rentals = await this.rentalsService.getRentals();
     return rentals.map((rental) => this.mapRentalToResponse(rental));
+  }
+  @Get('/:id')
+  async getSingleRental(
+    @Param('id') id: string,
+  ): Promise<GetRentalResponseDto> {
+    const rental = await this.rentalsService.getSingleRental(id);
+    return this.mapRentalToResponse(rental);
   }
 
   @Post()

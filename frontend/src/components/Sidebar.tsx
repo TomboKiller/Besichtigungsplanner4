@@ -3,6 +3,7 @@ import { GetRentalResponseDto } from '../api/response_rentals.dto';
 
 import RentalItem from './rental/RentalItem';
 import AddingRental from './rental/AddingRental';
+import { NavLink, useParams } from 'react-router-dom';
 
 interface RentalSidebarProps {
   data: GetRentalResponseDto[];
@@ -11,7 +12,7 @@ interface RentalSidebarProps {
 const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingUnit, setIsAddingUnit] = useState(false);
-
+  const { id: activeRentalId } = useParams<{ id: string }>();
   useEffect(() => {
     if (data.length === 0) {
       setIsAddingUnit(true);
@@ -124,12 +125,20 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
               {/* Add Unit Input */}
               {isAddingUnit && <AddingRental />}
               <div className="space-y-1">
+                <NavLink
+                  to={`/`}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex flex-col text-gray-700 p-2 rounded-md hover:bg-gray-100`}
+                >
+                  Alle Besichtigungen
+                </NavLink>
                 {data.map((rental) => (
                   <RentalItem
                     units={rental}
                     isAddingUnit={isAddingUnit}
                     setIsOpen={setIsOpen}
                     setisAddingUnit={setIsAddingUnit}
+                    isActive={rental.id === activeRentalId}
                   />
                 ))}
               </div>

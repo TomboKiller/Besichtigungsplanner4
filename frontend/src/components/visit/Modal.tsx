@@ -22,7 +22,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 };
 
-const Modal = ({ param }) => {
+interface ModalProps {
+  param: string | number;
+}
+
+const Modal = ({ param }: ModalProps) => {
   const [showModal, setShowModal] = useState(false);
 
   // useEffect(() => {
