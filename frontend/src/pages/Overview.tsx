@@ -36,8 +36,10 @@ const Overview = () => {
 
   return (
     <>
-      <h2 className="text-center my-6 text-3xl  text-gray-600">
-        Überblick aller geplanter Besichtigungen
+      <h2 className="mb-4 text-xl font-extrabold text-gray-900 dark:text-white md:text-xl lg:text-4xl text-center mt-[2%]">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r to-green-600 from-green-400">
+          Alle Besichtigungen
+        </span>
       </h2>
       <VisitList data={loaderData.visits} />
       <section className="mt-8">

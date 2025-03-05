@@ -8,6 +8,7 @@ export class VisitDto {
   other?: string;
   status: 'wait' | 'see' | 'interest' | 'finish' | 'ignore' | 'delete';
   createdAt: string; // ISO string for better API compatibility
+  rental_id: string;
 }
 
 export class GetVisitResponseDto extends VisitDto {}

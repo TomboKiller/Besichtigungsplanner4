@@ -84,6 +84,7 @@ export class VisitsController {
       other: visit.other,
       status: visit.status,
       createdAt: visit.createdAt.toISOString(),
+      rental_id: visit.rental.toString(),
     };
   }
 }

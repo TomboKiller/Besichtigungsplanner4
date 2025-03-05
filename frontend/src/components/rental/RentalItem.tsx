@@ -47,7 +47,7 @@ const RentalItem: FC<ListRentalProps> = ({
     <div>
       <div
         key={units.id}
-        className={`${styles.container} ${isActive ? 'bg-gray-100 border border-gray-400' : ''} `}
+        className={`${styles.container} ${isActive ? 'bg-gray-100' : ''} `}
       >
         <Form
           method="post"
