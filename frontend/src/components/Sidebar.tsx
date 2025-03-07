@@ -45,6 +45,7 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
+        <div className="absolute -z-10 inset-0 bg-white rounded-full"></div>
       </button>
 
       {/* Overlay */}
