@@ -42,9 +42,9 @@ const Overview = () => {
         </span>
       </h2>
       <VisitList data={loaderData.visits} />
-      <section className="mt-8">
+      {/* <section className="mt-8">
         <Archive_visits visits_archived={loaderData.visits_archived} />
-      </section>
+      </section> */}
     </>
   );
 };
