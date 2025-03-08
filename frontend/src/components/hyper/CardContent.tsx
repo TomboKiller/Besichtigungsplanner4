@@ -32,6 +32,7 @@ const DEFAULT_STATE: GetVisitResponseDto = {
   jobTitle: '',
   datetime: '',
   other: '',
+  rental_id: '',
 };
 
 const CardContent: FC<CardContentProps> = ({ visit, edit = false }) => {

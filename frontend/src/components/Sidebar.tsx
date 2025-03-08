@@ -30,10 +30,10 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
       {/* Hamburger Menu Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-4 left-4 z-20 p-2 rounded-md hover:bg-gray-100"
+        className="fixed top-4 left-4 z-20 p-2 rounded-full bg-white hover:bg-gray-100 shadow-md transition-colors duration-200 flex items-center justify-center"
       >
         <svg
-          className="h-6 w-6"
+          className="h-6 w-6 text-gray-700"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -45,7 +45,6 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
             d="M4 6h16M4 12h16M4 18h16"
           />
         </svg>
-        <div className="absolute -z-10 inset-0 bg-white rounded-full"></div>
       </button>
 
       {/* Overlay */}

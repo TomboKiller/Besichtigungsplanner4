@@ -10,7 +10,7 @@ interface CardContentProps {
 
 const Button_Download_ics: FC<CardContentProps> = ({ visit }) => {
   console.log(visit?.datetime);
-  const formattedDate = () => {
+  const formattedDate = (): [number, number, number, number, number] | null => {
     if (!visit?.datetime) {
       return null;
     }
@@ -23,17 +23,24 @@ const Button_Download_ics: FC<CardContentProps> = ({ visit }) => {
       date.getUTCMinutes(),
     ];
   };
-  const event = {
-    start: formattedDate(),
-    duration: { minutes: 30 },
-    title: visit?.name || 'Untitled Event',
-    description: 'Test',
-  };
 
   const handleSave = () => {
+    const dateArray = formattedDate();
+    if (!dateArray) {
+      console.error('No date available for the event');
+      return;
+    }
+
+    const event = {
+      start: dateArray as [number, number, number, number, number],
+      duration: { minutes: 30 },
+      title: `Besichtigung ${visit?.name}` || 'Untitled Event',
+      description: 'Test',
+    };
+
     createEvent(event, (error, value) => {
       const blob = new Blob([value], { type: 'text/plain;charset=utf-8' });
-      saveAs(blob, 'event-schedule.ics');
+      saveAs(blob, `besichtigung-${visit?.name}.ics`);
     });
   };
 
