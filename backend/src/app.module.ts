@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from './env.validation';
 import { RentalsController } from './rentals/rentals.controller';
 import { RentalsModule } from './rentals/rentals.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { RentalsModule } from './rentals/rentals.module';
     }),
     VisitsModule,
     RentalsModule,
+    AuthModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

@@ -9,7 +9,6 @@ interface CardContentProps {
 }
 
 const Button_Download_ics: FC<CardContentProps> = ({ visit }) => {
-  console.log(visit?.datetime);
   const formattedDate = (): [number, number, number, number, number] | null => {
     if (!visit?.datetime) {
       return null;

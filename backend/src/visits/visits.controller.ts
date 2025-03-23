@@ -12,6 +12,7 @@ import { GetVisitResponseDto } from 'src/api/response.dto';
 import { VisitsService } from './visits.service';
 import { Visit, VisitDocument, VisitStatus } from './visits.entity';
 import { stat } from 'fs';
+import { Public } from 'src/auth/constants';
 
 @Controller('api/v1/visits')
 export class VisitsController {

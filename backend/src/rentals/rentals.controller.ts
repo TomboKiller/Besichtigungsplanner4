@@ -11,6 +11,7 @@ import { GetRentalResponseDto } from 'src/api/response_rentals.dto';
 import { RentalsService } from './rentals.service';
 import { RentalDocument } from './entities/rental.entity';
 import { CreateRentalDto } from 'src/api/request_rentals.dto';
+import { Public } from 'src/auth/constants';
 
 @Controller('api/v1/rentals')
 export class RentalsController {
