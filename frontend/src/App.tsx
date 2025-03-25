@@ -7,13 +7,20 @@ import { action as createVisitsAction } from './components/visit/Modal';
 import { action as createRentalAction } from './components/rental/AddingRental';
 // import { action as updateVisitAction } from './components/visit/VisitItem';
 import DashboardPage from './pages/DashboardPage';
-
+import Login from './pages/Login'; // Import LoginPage
 import { action as updateVisitAction } from './components/visit/VisitItem';
 import { action as updateRentalAction } from './components/rental/RentalItem';
+import { action as loginAction } from './pages/Login';
 import Overview from './pages/Overview';
 import SingleRental from './pages/SingleRental';
 
 const router = createBrowserRouter([
+  {
+    path: '/login', // Add a route for the login page
+    element: <Login />,
+    action: loginAction,
+    errorElement: <div>404 Not Found</div>,
+  },
   {
     path: '/',
     element: <DashboardPage />,
