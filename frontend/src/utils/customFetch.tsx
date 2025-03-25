@@ -4,6 +4,7 @@ export const apiBaseUrl = import.meta.env.VITE_BACKEND_URL;
 
 const customFetch = axios.create({
   baseURL: apiBaseUrl + 'api/v1/',
+  withCredentials: true,
 });
 
 export default customFetch;

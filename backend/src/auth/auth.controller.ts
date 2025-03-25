@@ -6,8 +6,10 @@ import {
   HttpStatus,
   Post,
   Request,
+  Res,
   UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { Public } from './constants';
@@ -19,8 +21,17 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  async signIn(
+    @Body() signInDto: Record<string, any>,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const value = await this.authService.signIn(
+      signInDto.username,
+      signInDto.password,
+    );
+
+    response.cookie('key', value.access_token);
+    return { success: true }; // Return a response to complete the request
   }
 
   @Public()
