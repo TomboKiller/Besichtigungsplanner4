@@ -1,4 +1,4 @@
-import { useLoaderData, useParams, Params } from 'react-router-dom';
+import { useLoaderData, useParams, Params, redirect } from 'react-router-dom';
 
 import Modal from '../components/visit/Modal';
 import VisitList from '../components/VisitList';
@@ -27,7 +27,7 @@ export const loader = async ({ params }: { params: Params }) => {
     const errorMessage = error.response?.data?.error || 'Something went wrong';
     toast.error(errorMessage);
     console.error(error.response?.data?.details);
-    return error;
+    return redirect('/login');
   }
 };
 

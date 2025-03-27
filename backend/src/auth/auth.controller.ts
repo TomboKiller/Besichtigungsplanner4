@@ -29,9 +29,19 @@ export class AuthController {
       signInDto.username,
       signInDto.password,
     );
-
-    response.cookie('key', value.access_token);
+    const oneDay = 1000 * 60 * 60 * 24;
+    response.cookie('key', value.access_token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + oneDay),
+      secure: process.env.NODE_ENV === 'production',
+    });
     return { success: true }; // Return a response to complete the request
+  }
+
+  @Get('logout')
+  async logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('key');
+    return { success: true };
   }
 
   @Public()

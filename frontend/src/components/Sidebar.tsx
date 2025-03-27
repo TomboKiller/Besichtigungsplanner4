@@ -3,7 +3,9 @@ import { GetRentalResponseDto } from '../api/response_rentals.dto';
 
 import RentalItem from './rental/RentalItem';
 import AddingRental from './rental/AddingRental';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import customFetch from '../utils/customFetch';
+import { toast } from 'react-toastify';
 
 interface RentalSidebarProps {
   data: GetRentalResponseDto[];
@@ -13,6 +15,19 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAddingUnit, setIsAddingUnit] = useState(false);
   const { id: activeRentalId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  const buttonLogout = async () => {
+    try {
+      await customFetch.get('/auth/logout');
+
+      toast.success('Logout successful');
+      return navigate('/login');
+    } catch (error) {
+      return error;
+    }
+  };
+
   useEffect(() => {
     if (data.length === 0) {
       setIsAddingUnit(true);
@@ -173,7 +188,10 @@ const Sidebar: FC<RentalSidebarProps> = ({ data }) => {
                     />
                   </svg>
                 </button>
-                <button className="p-2 hover:bg-gray-100 rounded-md">
+                <button
+                  onClick={buttonLogout}
+                  className="p-2 hover:bg-gray-100 rounded-md"
+                >
                   <svg
                     className="w-5 h-5"
                     fill="none"

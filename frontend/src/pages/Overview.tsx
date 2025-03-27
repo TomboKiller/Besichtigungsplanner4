@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { redirect, useLoaderData } from 'react-router-dom';
 import VisitList from '../components/VisitList';
 import Archive_visits from '../components/Archive_visits';
 import { GetVisitResponseDto } from '../api/response.dto'; // Adjust the import path as necessary
@@ -27,7 +27,7 @@ export const loader = () => async () => {
     const errorMessage = error.response?.data?.error || 'Something went wrong';
     toast.error(errorMessage);
     console.error(error.response?.data?.details);
-    return error;
+    return redirect('/login');
   }
 };
 
