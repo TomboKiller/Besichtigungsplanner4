@@ -35,6 +35,7 @@ const Login = () => {
               name="username"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
               placeholder="your@email.com"
+              required={true}
             />
           </div>
 
@@ -47,37 +48,11 @@ const Login = () => {
               name="password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
               placeholder="••••••••"
+              required={true}
             />
           </div>
-
-          <div className="flex items-center justify-between">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              <span className="ml-2 text-sm text-gray-600">Remember me</span>
-            </label>
-            <a
-              href="#"
-              className="text-sm text-indigo-600 hover:text-indigo-500"
-            >
-              Forgot password?
-            </a>
-          </div>
-
           <Button> Anmelden</Button>
         </Form>
-
-        <div className="mt-6 text-center text-sm text-gray-600">
-          Don't have an account?
-          <a
-            href="#"
-            className="text-indigo-600 hover:text-indigo-500 font-medium"
-          >
-            Sign up
-          </a>
-        </div>
       </div>
     </div>
   );

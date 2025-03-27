@@ -1,4 +1,4 @@
-import { IsString, IsDateString, IsOptional } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 import { IsInt, Min, Max } from 'class-validator';
 import { IsMongoId } from 'class-validator';
 import { Transform } from 'class-transformer';
