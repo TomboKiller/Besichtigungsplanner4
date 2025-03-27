@@ -23,7 +23,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 interface ModalProps {
-  param: string | number;
+  param: string;
 }
 
 const Modal = ({ param }: ModalProps) => {

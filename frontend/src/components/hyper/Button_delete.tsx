@@ -87,6 +87,3 @@ export const Button_delete_rentalitem = ({
     </button>
   );
 };
-function setInputValue(arg0: string) {
-  throw new Error('Function not implemented.');
-}

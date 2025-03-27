@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import Button_good from '../hyper/Button_good';
 import ReactConfetti from 'react-confetti';
 import Button_bad from '../hyper/Button_bad';
-import Download_ics from '../hyper/Button_Download_ics';
+
 import Button_Download_ics from '../hyper/Button_Download_ics';
 
 interface VisitItemProps {

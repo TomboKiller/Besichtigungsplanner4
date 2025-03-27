@@ -13,21 +13,21 @@ import { action as updateRentalAction } from './components/rental/RentalItem';
 import { action as loginAction } from './pages/Login';
 import Overview from './pages/Overview';
 import SingleRental from './pages/SingleRental';
-import NotFound from './pages/NotFound';
+import Error from './pages/Error';
 
 const router = createBrowserRouter([
   {
     path: '/login', // Add a route for the login page
     element: <Login />,
     action: loginAction,
-    errorElement: <NotFound />,
+    errorElement: <Error />,
   },
   {
     path: '/',
     element: <DashboardPage />,
     loader: allRentalsLoader,
     action: createRentalAction,
-    errorElement: <NotFound />,
+    errorElement: <Error />,
     children: [
       {
         index: true,

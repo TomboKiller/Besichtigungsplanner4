@@ -1,8 +1,8 @@
 import { redirect, useLoaderData } from 'react-router-dom';
 import VisitList from '../components/VisitList';
-import Archive_visits from '../components/Archive_visits';
+
 import { GetVisitResponseDto } from '../api/response.dto'; // Adjust the import path as necessary
-import Modal from '../components/visit/Modal';
+
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 

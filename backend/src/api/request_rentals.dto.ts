@@ -1,7 +1,4 @@
-import { IsString, IsDateString, IsOptional } from 'class-validator';
-import { IsInt, Min, Max } from 'class-validator';
-import { IsMongoId } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsString } from 'class-validator';
 
 export class CreateRentalDto {
   @IsString()

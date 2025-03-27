@@ -42,7 +42,7 @@ const SingleRental = () => {
           {rental.name}
         </span>
       </h2>
-      <Modal param={id} />
+      <Modal param={id!} />
       <VisitList data={visits} />
       <section className="mt-8"></section>
     </>

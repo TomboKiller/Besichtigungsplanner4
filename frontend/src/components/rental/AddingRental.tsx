@@ -10,7 +10,7 @@ import Input from '../hyper/Input';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+  const data = Object.fromEntries(formData) as { name: string };
 
   await add_rental(data);
   return window.location.reload();

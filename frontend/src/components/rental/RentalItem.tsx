@@ -30,8 +30,8 @@ interface ListRentalProps {
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  await edit_rental({ params }, data);
+  const data = Object.fromEntries(formData) as { name: string };
+  await edit_rental({ request, params }, data);
   return redirect('/');
 };
 

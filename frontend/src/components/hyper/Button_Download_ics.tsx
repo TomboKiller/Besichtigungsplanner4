@@ -37,7 +37,7 @@ const Button_Download_ics: FC<CardContentProps> = ({ visit }) => {
       description: 'Test',
     };
 
-    createEvent(event, (error, value) => {
+    createEvent(event, (_error, value) => {
       const blob = new Blob([value], { type: 'text/plain;charset=utf-8' });
       saveAs(blob, `besichtigung-${visit?.name}.ics`);
     });
